@@ -35,7 +35,7 @@ const LoginForm = () => {
     password: '',
   }
 
-  const formLogin = useFormik({  
+  const formLogin = useFormik({
     initialValues: initFormLoginData,
     validationSchema: loginSchema,
     onSubmit: async (data) => {
@@ -48,7 +48,7 @@ const LoginForm = () => {
         // localStorage.setItem('access_token', response.data.accessToken);
         // localStorage.setItem('username', response.data.username);
         // dispatch(login(response.data))
-        navigate(DASHBOARD, {replace : true})
+        navigate(DASHBOARD, { replace: true })
       }
       catch (error: any) {
         message.error('Lỗi đăng nhập!')
@@ -59,99 +59,101 @@ const LoginForm = () => {
 
   return (
     <div className="login-form-container">
-      <div className="login-form-wrapper">
-        <div className="login-form-container-inside">
-          <Space className="wrapper-login" direction="vertical" size="large">
-            <Icon className="login-icon-cam" component={CategoryTabSVG} alt="" />
-            <Typography className="tittle-login">Speed to Text</Typography>
-            <Typography className="subtittle">
-              Chuyển đổi âm thanh thành văn bản dễ dàng
-            </Typography>
-            <Form
-              className="main-login-form"
-              onFinish={formLogin.handleSubmit}
-            >
-              <Form.Item
-                validateStatus={
-                  formLogin.errors.email && formLogin.touched.email
-                    ? "error"
-                    : ""
-                }
-                help={
-                  formLogin.touched.email && formLogin.errors.email
-                }
-              >
-                <Input
-                  placeholder="Email"
-                  name="email"
-                  value={formLogin.values.email}
-                  onChange={formLogin.handleChange}
-                  allowClear
-                  // prefix={
-                  //   <Icon className="icon-input-login" component={UserLoginSVG} />
-                  // }
-                />
-              </Form.Item>
-              <Form.Item
-                name="Password"
-                validateStatus={
-                  formLogin.errors.password && formLogin.touched.password
-                    ? "error"
-                    : ""
-                }
-                help={
-                  formLogin.touched.password && formLogin.errors.password
-                }
-              >
-                <Input.Password
-                  placeholder="Password"
-                  name="password"
-                  value={formLogin.values.password}
-                  onChange={formLogin.handleChange}
-                  // prefix={
-                  //   <Icon className="icon-input-login" component={LockOutlineSVG} />
-                  // }
-                />
-              </Form.Item>
-              <Form.Item name="remember" valuePropName="checked">
-                <Row justify={"space-between"}>
-                  <Checkbox className="checkbox-login">
-                    <Typography className="checkbox-tittle">
-                      Lưu đăng nhập
-                    </Typography>
-                  </Checkbox>
-                  <Link>
-                    <Typography className="forget-text-login">
-                      Quên mật khẩu
-                    </Typography>
-                  </Link>
-                </Row>
-              </Form.Item>
-              <Form.Item>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  className="submit-button"
-                >
-                  <Typography className="submit-button-tittle">
-                    Đăng nhập
-                  </Typography>
-                </Button>
-              </Form.Item>
-            </Form>
-          </Space>
-        </div>
-        <div className="account-already-container">
-          <Link>
-            <Typography className="account-already-text">
-              Chưa có tài khoản?
-            </Typography>
-          </Link>
-          <Link>
-            <Typography className="register-text">Đăng ký</Typography>
-          </Link>
-        </div>
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", marginBottom: "20px", width: "100%" }}>
+        <Typography className="tittle-login">WAF ADMIN</Typography>
+        <Typography className="subtittle">
+          Protect your website from any attacks
+        </Typography>
       </div>
+      <div className="login-form-container-inside">
+        <Space className="wrapper-login" direction="vertical" size="large">
+          {/* <Icon className="login-icon-cam" component={CategoryTabSVG} alt="" /> */}
+
+          <Form
+            className="main-login-form"
+            onFinish={formLogin.handleSubmit}
+          >
+            <Form.Item
+              validateStatus={
+                formLogin.errors.email && formLogin.touched.email
+                  ? "error"
+                  : ""
+              }
+              help={
+                formLogin.touched.email && formLogin.errors.email
+              }
+            >
+              <Input
+                placeholder="Username"
+                name="email"
+                value={formLogin.values.email}
+                onChange={formLogin.handleChange}
+                allowClear
+              // prefix={
+              //   <Icon className="icon-input-login" component={UserLoginSVG} />
+              // }
+              />
+            </Form.Item>
+            <Form.Item
+              name="Password"
+              validateStatus={
+                formLogin.errors.password && formLogin.touched.password
+                  ? "error"
+                  : ""
+              }
+              help={
+                formLogin.touched.password && formLogin.errors.password
+              }
+            >
+              <Input.Password
+                placeholder="Password"
+                name="password"
+                value={formLogin.values.password}
+                onChange={formLogin.handleChange}
+              // prefix={
+              //   <Icon className="icon-input-login" component={LockOutlineSVG} />
+              // }
+              />
+            </Form.Item>
+            <Form.Item name="remember" valuePropName="checked">
+              <Row justify={"space-between"}>
+                <Checkbox className="checkbox-login">
+                  <Typography className="checkbox-tittle">
+                    Save login
+                  </Typography>
+                </Checkbox>
+                <Link>
+                  <Typography className="forget-text-login">
+                    Forgot password
+                  </Typography>
+                </Link>
+              </Row>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="submit-button"
+              >
+                <Typography className="submit-button-tittle">
+                  Sign in
+                </Typography>
+              </Button>
+            </Form.Item>
+            <div className="account-already-container">
+              <Link>
+                <Typography className="account-already-text">
+                  No account?
+                </Typography>
+              </Link>
+              <Link>
+                <Typography className="register-text">Sign up</Typography>
+              </Link>
+            </div>
+          </Form>
+        </Space>
+      </div>
+
     </div>
   );
 };
