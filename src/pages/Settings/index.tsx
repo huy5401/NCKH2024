@@ -9,6 +9,7 @@ import { ConfigApi } from '../../apis/config';
 import './style.scss';
 import { RuleApi } from '../../apis/rule';
 import * as Yup from 'yup';
+import TextArea from 'antd/es/input/TextArea';
 type ModeAIType = {
   mode?: "On" | "Off"
 }
@@ -19,10 +20,32 @@ const Settings = () => {
   const [isUpdateCRS, setIsUpdateCRS] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [modeAI, setModeAI] = useState<ModeAIType>({});
+  // const [fetchValue, setFetchValue] = useState<string>("AAAAAAA \n aaaaaa\n nnnnnn\n dddd");
+  // const handlePressKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  //   if (e.key === '/' && e.ctrlKey) {
+  //     e.preventDefault();
+  //     const textArea = e.target as HTMLTextAreaElement;
+  //     const selectionStart = textArea.selectionStart || 0;
+  //     const selectionEnd = textArea.selectionEnd || 0;
+  //     // Lấy vị trí dấu xuống dòng trước và sau vùng được bôi đen
+  //     const startLineIndex = fetchValue.lastIndexOf('\n', selectionStart - 1) + 1;
+  //     const endLineIndex = fetchValue.indexOf('\n', selectionEnd);
+
+  //     // Lấy dòng vừa bôi đen
+  //     const selectedLines = fetchValue.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
+  //     // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
+  //     const modifiedLines = selectedLines.split('\n').map(line => {
+  //       if(line.trim().startsWith('#')) return line.replace('#','')
+  //       else return '#' + line
+  //     }).join('\n');
+  //     const updatedFetchValue = fetchValue.substring(0, startLineIndex) + modifiedLines + fetchValue.substring(endLineIndex !== -1 ? endLineIndex : fetchValue.length);     
+  //     setFetchValue(updatedFetchValue);
+  //   }
+  // }
   const validateSchema = Yup.object().shape({
     SecAuditLogParts: Yup.string()
       .matches(/^[ABDEFHIJZ]+$/, 'Only the characters A, B, D, E, F, H, I, J, Z are allowed to be entered')
-      .test('hasAFZ', 'Required to enter A,F,Z', (value:any) =>
+      .test('hasAFZ', 'Required to enter A,F,Z', (value: any) =>
         /[AFZ]/i.test(value)
       )
       .min(3, 'Required to enter A,F,Z')
@@ -257,6 +280,7 @@ const Settings = () => {
           }
         </Space>
       </Space>
+      {/* <TextArea rows={10} value={fetchValue} onKeyUp={handlePressKey} /> */}
       <ul>
         <li>A: Audit log header (required)</li>
         <li>B: Request headers</li>

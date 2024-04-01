@@ -1,12 +1,10 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
-  Form, Space, Spin, message,
+  Form, Space, message,
 } from "antd";
 import "./style.scss";
 import TextArea from "antd/es/input/TextArea";
-import RulesTable from "./RulesTable";
 import ButtonCustom from "../../components/ButtonCustom";
-import Icons from "../../assets/icons";
 import { AgentType } from "../../constants/types/agent.type";
 import { RuleApi } from "../../apis/rule";
 import { UpdateRuleType } from "../../constants/types/rules.type";
@@ -19,33 +17,28 @@ const Rules: FC<Props> = ({ agentData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataRule, setDataRule] = useState("");
   const [dataRuleChange, setDataRuleChange] = useState("");
-  const listRuleAreaRef = useRef<HTMLTextAreaElement>(null);
-  const handleCommandKey = (e: any) => {
+  const handleCommandKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === '/' && e.ctrlKey) {
       e.preventDefault();
-      insertHashAtBeginning();
+      const textArea = e.target as HTMLTextAreaElement;
+      const selectionStart = textArea.selectionStart || 0;
+      const selectionEnd = textArea.selectionEnd || 0;
+      // Lấy vị trí dấu xuống dòng trước và sau vùng được bôi đen
+      const startLineIndex = dataRuleChange.lastIndexOf('\n', selectionStart - 1) + 1;
+      const endLineIndex = dataRuleChange.indexOf('\n', selectionEnd);
+
+      // Lấy dòng vừa bôi đen
+      const selectedLines = dataRuleChange.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
+      // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
+      const modifiedLines = selectedLines.split('\n').map(line => {
+        if(line.trim().startsWith('#')) return line.replace('#','')
+        else return '#' + line
+      }).join('\n');
+      const updateddataRuleChange = dataRuleChange.substring(0, startLineIndex) + modifiedLines + dataRuleChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleChange.length);     
+      setDataRuleChange(updateddataRuleChange);
     }
-  }   
-  const insertHashAtBeginning = () => {
-    const textarea = listRuleAreaRef.current;
-    if (!textarea) return;
-
-    const selectionStart = textarea.selectionStart;
-    console.log(selectionStart);
-    
-    // const selectionEnd = textarea.selectionEnd;
-
-    // const lines = textarea.value.split('\n');
-    // const modifiedLines = lines.map((line, index) => {
-    //   if (index >= selectionStart && index < selectionEnd) {
-    //     return '#' + line;
-    //   }
-    //   return line;
-    // });
-
-    // const modifiedText = modifiedLines.join('\n');
-    // textarea.value = modifiedText;
   }
+
   const fetchDataRule = async () => {
     setIsLoading(true);
     try {
@@ -99,7 +92,7 @@ const Rules: FC<Props> = ({ agentData }) => {
   }
   return (
     <div><Form>
-      <TextArea ref={listRuleAreaRef} rows={20} value={dataRuleChange} onChange={handleChangeRule} disabled={!isEdit} onKeyDown={handleCommandKey}/>
+      <TextArea rows={20} value={dataRuleChange} onChange={handleChangeRule} disabled={!isEdit} onKeyUp={handleCommandKey} />
       <Space style={{ display: "flex", justifyContent: "end" }}>
         {
           isEdit ? <> <ButtonCustom
