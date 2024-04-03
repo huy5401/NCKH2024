@@ -20,8 +20,13 @@ export const RuleApi = {
             method: 'POST'
         })
     },
-    updateModeAI: (params: {mode?:string}) => {
-        return WAFAxiosClient(`/update_mode_AI?${serialize({...params})}`,{
+    updateModelCNN: (params: {mode?:string}) => {
+        return WAFAxiosClient(`/update_mode_AI_CNN?${serialize({...params})}`,{
+            method: 'POST'
+        })
+    },
+    updateModelSVM: (params: {mode?:string}) => {
+        return WAFAxiosClient(`/update_mode_AI_vtr?${serialize({...params})}`,{
             method: 'POST'
         })
     },
@@ -30,8 +35,13 @@ export const RuleApi = {
             method: 'GET',
         })
     },
-    getModeAI: () => {
-        return WAFAxiosClient('/get_mode_AI', {
+    getModeCNN: () => {
+        return WAFAxiosClient('/get_mode_AI_CNN', {
+            method: 'GET',
+        })
+    },
+    getModeSVm: () => {
+        return WAFAxiosClient('/get_mode_AI_vtr', {
             method: 'GET',
         })
     }

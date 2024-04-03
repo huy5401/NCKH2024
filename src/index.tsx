@@ -14,7 +14,6 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
-  <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         <SWRConfig
@@ -33,7 +32,6 @@ root.render(
         </SWRConfig>
       </Provider>
     </BrowserRouter>
-  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

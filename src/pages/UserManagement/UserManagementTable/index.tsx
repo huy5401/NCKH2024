@@ -1,16 +1,12 @@
-import { Card, Form, Input, Select, Tooltip, Typography, message } from "antd";
-import { FC, useEffect, useState } from "react";
+import { Card, Select, Tooltip, message } from "antd";
+import { FC, useState } from "react";
 import { ColumnsType } from "antd/es/table";
-
 import "./style.scss";
-import { RuleType } from "../../../constants/types/rules.type";
 import ListButtonActionUpdate from "../../../components/ListButtonActionUpdate";
 import TableCustom from "../../../components/TableCustom";
 import { CommonGetAllParams } from "../../../constants/types/common.type";
-import { dataMock } from "./mockData.config";
 import CardTitleCustom from "../../../components/CardTitleCustom";
 import { useNavigate } from "react-router-dom";
-import { USER_MANAGEMENT_DETAILS } from "../../../routes/route.constant";
 import { AgentType, FilterAgentType } from "../../../constants/types/agent.type";
 import { useAgent } from "../../../utils/request";
 import EditAgentModal from "../UsermgnEditModal";
@@ -33,13 +29,6 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
 
 
   const { data, isLoading, error, mutate } = useAgent(params, filter);
-   
-  const [listAgent, setListAgent] = useState<Array<any>>([])
-  useEffect(() => {
-    if (data) {
-      setListAgent([...data?.data])
-    }
-  }, [data])
 
   const openEditModalHandler = (record: AgentType) => {
     setIsOpenEditModal(true);
@@ -193,7 +182,7 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
       <Card className="card-container" size="small">
         <CardTitleCustom title="List targets" />
         <TableCustom
-          dataSource={listAgent}
+          dataSource={data?.data}
           columns={columns}
           bordered={true}
           isLoading={!data && isLoading}

@@ -12,6 +12,7 @@ import { FilterLogType, LogType } from "../../../../../constants/types/log.type"
 import { useLog } from "../../../../../utils/request";
 import { Excell } from "../../../../../assets/images";
 import { LogsApi } from "../../../../../apis/log";
+import { AttackerMap } from "../AttackerMap";
 type Props = {
   agentData: AgentType;
   filter: FilterLogType;
@@ -22,6 +23,8 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
     number: 10,
     page: 1,
   });
+  const [selectedRemoteAddr, setSelectedRemoteAddr] = useState<string>("");
+  const [isOpenAttackerMapModal, setIsOpenAttackerMapModal] = useState<boolean>(false);
   const { data, isLoading, error, mutate } = useLog(params, filter, agentData.Port);
   const getFIleName = () => {
       const currentTime = new Date().getTime();
@@ -41,6 +44,14 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       message.error("Export file excell error")
     }
   };
+  const openAttackerMapModalHandler = (remote_address: string) => {
+    setIsOpenAttackerMapModal(true);
+    setSelectedRemoteAddr(remote_address);
+  }
+
+  const closeAttackerMapModalHandler = () => {
+    setIsOpenAttackerMapModal(false);
+  }
   const columns: ColumnsType<LogType> = [
     {
       key: 1,
@@ -83,7 +94,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       align: "left",
       render: (remote_address) => (
         <Tooltip title={remote_address}>
-          <div className="inline-text">{remote_address}</div>
+          <div className="inline-text remote_address-text" onClick={() => openAttackerMapModalHandler(remote_address)}><u>{remote_address}</u></div>
         </Tooltip>
       ),
     },
@@ -148,8 +159,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
           dataSource={data?.data}
           columns={columns}
           bordered={true}
-          isLoading={false}
-          //isLoading={!data && isLoading}
+          isLoading={!data && isLoading}
           limit={params.number || 10}
           total={data ? data.total : 0}
           onLimitChange={(number) => {
@@ -161,6 +171,8 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
           page={params.page || 1}
         />
       </Card>
+      { selectedRemoteAddr ? <AttackerMap isOpenModal={isOpenAttackerMapModal} closeModal={closeAttackerMapModalHandler} remoteAddr={selectedRemoteAddr}/> 
+       : <></>}
     </div>
   );
 };

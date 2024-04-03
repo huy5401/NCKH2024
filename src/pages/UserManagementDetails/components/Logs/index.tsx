@@ -10,18 +10,6 @@ type Props = {
 
 const Logs:FC<Props> = ({agentData}) => {
   const [filter, setFilter]= useState<FilterLogType>({time: 48})
-  const [isopenKeyCreateModal, setIsOpenKeyCreateModal] =
-    useState<boolean>(false);
-
-  const openKeyCreateModal = () => {
-    setIsOpenKeyCreateModal(true);
-  };
-
-  const closeKeyCreateModal = () => {
-    setIsOpenKeyCreateModal(false);
-  };
-
-
   return (
     <>
       <div style={{ marginBottom: '12px' }}>

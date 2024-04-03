@@ -1,0 +1,26 @@
+.modalAttackerMap-wrapper {
+    .modalAttackerMap-title{
+        font-size: 1.2rem;
+        font-weight: 500;
+        padding: 5px 15px;
+        background-color: #1677ff;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        color: #FFF;
+        display: flex;
+        justify-content: center;
+    }
+    .ant-modal-content {
+        padding: 0;
+        .ant-modal-body {
+            width: 1200px !important;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            .leaflet-container{
+                height: 600px;
+            }
+            
+        }
+    }
+}

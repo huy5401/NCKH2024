@@ -19,29 +19,8 @@ const Settings = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isUpdateCRS, setIsUpdateCRS] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [modeAI, setModeAI] = useState<ModeAIType>({});
-  // const [fetchValue, setFetchValue] = useState<string>("AAAAAAA \n aaaaaa\n nnnnnn\n dddd");
-  // const handlePressKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-  //   if (e.key === '/' && e.ctrlKey) {
-  //     e.preventDefault();
-  //     const textArea = e.target as HTMLTextAreaElement;
-  //     const selectionStart = textArea.selectionStart || 0;
-  //     const selectionEnd = textArea.selectionEnd || 0;
-  //     // Lấy vị trí dấu xuống dòng trước và sau vùng được bôi đen
-  //     const startLineIndex = fetchValue.lastIndexOf('\n', selectionStart - 1) + 1;
-  //     const endLineIndex = fetchValue.indexOf('\n', selectionEnd);
-
-  //     // Lấy dòng vừa bôi đen
-  //     const selectedLines = fetchValue.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
-  //     // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
-  //     const modifiedLines = selectedLines.split('\n').map(line => {
-  //       if(line.trim().startsWith('#')) return line.replace('#','')
-  //       else return '#' + line
-  //     }).join('\n');
-  //     const updatedFetchValue = fetchValue.substring(0, startLineIndex) + modifiedLines + fetchValue.substring(endLineIndex !== -1 ? endLineIndex : fetchValue.length);     
-  //     setFetchValue(updatedFetchValue);
-  //   }
-  // }
+  const [modeCNN, setModeCNN] = useState<ModeAIType>({});
+  const [modeSVM, setModeSVM] = useState<ModeAIType>({});
   const validateSchema = Yup.object().shape({
     SecAuditLogParts: Yup.string()
       .matches(/^[ABDEFHIJZ]+$/, 'Only the characters A, B, D, E, F, H, I, J, Z are allowed to be entered')
@@ -61,13 +40,22 @@ const Settings = () => {
       message.error("Get config error");
     }
   }
-  const fecthModeAI = async () => {
+  const fecthModeCNN = async () => {
     try {
-      const resModeAI = await RuleApi.getModeAI();
-      if (resModeAI.status === 200) setModeAI(resModeAI.data)
-      else message.error("Get mode AI error")
+      const resModelCNN = await RuleApi.getModeCNN();
+      if (resModelCNN.status === 200) setModeCNN(resModelCNN.data)
+      else message.error("Get mode CNN error")
     } catch (error) {
-      message.error("Get mode AI error")
+      message.error("Get mode CNN error")
+    }
+  }
+  const fecthModeSVM = async () => {
+    try {
+      const resModelSVM = await RuleApi.getModeSVm();
+      if (resModelSVM.status === 200) setModeSVM(resModelSVM.data)
+      else message.error("Get mode SVM error")
+    } catch (error) {
+      message.error("Get mode SVM error")
     }
   }
   useEffect(() => {
@@ -81,7 +69,7 @@ const Settings = () => {
   }, [])
   useEffect(() => {
     fecthConfig();
-    fecthModeAI();
+    fecthModeCNN();
   }, [])
   useEffect(() => {
     if (dataConfig) {
@@ -106,21 +94,42 @@ const Settings = () => {
       setIsUpdateCRS(false);
     }
   }
-  const handleChangeModeAI = (e: any) => {
+  const handleChangeModelCNN = (e: any) => {
     Modal.confirm({
       title: 'Confirm',
-      content: 'You definitely want to enable this mode?',
+      content: 'You definitely want to enable CNN model?',
       onOk: async () => {
         try {
-          const res = await RuleApi.updateModeAI({ mode: e ? "On" : "Off" });
-          if (res.status === 200) message.success("Enable AI mode successfully")
+          const res = await RuleApi.updateModelCNN({ mode: e ? "On" : "Off" });
+          if (res.status === 200) message.success("Update mode CNN successfully")
           else {
-            message.error("Enable AI mode error");
+            message.error("Update mode CNN error");
           }
         } catch (error) {
-          message.error("Enable AI mode error");
+          message.error("Update mode CNN error");
         }
-        fecthModeAI();
+        fecthModeCNN();
+      },
+      onCancel() {
+
+      },
+    });
+  }
+  const handleChangeModelSVM = (e: any) => {
+    Modal.confirm({
+      title: 'Confirm',
+      content: 'You definitely want to enable SVM model?',
+      onOk: async () => {
+        try {
+          const res = await RuleApi.updateModelSVM({ mode: e ? "On" : "Off" });
+          if (res.status === 200) message.success("Update mode SVM successfully")
+          else {
+            message.error("Update mode SVM error");
+          }
+        } catch (error) {
+          message.error("Update mode SVM error");
+        }
+        fecthModeSVM();
       },
       onCancel() {
 
@@ -164,10 +173,15 @@ const Settings = () => {
           loading={isUpdateCRS}
           onClick={handleUpdateCRS}
         />
-        <Form.Item label="AI engine"
+        <Form.Item label="CNN model"
           style={{ margin: '0 0 0 20px' }}
         >
-          <Switch value={modeAI.mode === "On" ? true : false} onChange={handleChangeModeAI} />
+          <Switch value={modeCNN.mode === "On" ? true : false} onChange={handleChangeModelCNN} />
+        </Form.Item>
+        <Form.Item label="SVM model"
+          style={{ margin: '0 0 0 20px' }}
+        >
+          <Switch value={modeSVM.mode === "On" ? true : false} onChange={handleChangeModelSVM} />
         </Form.Item>
       </Space>
       <Form layout="horizontal" disabled={!isEdit}>

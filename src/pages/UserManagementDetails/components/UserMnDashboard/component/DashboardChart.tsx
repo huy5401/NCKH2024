@@ -1,12 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions, LineElement, ChartData, PointElement, LinearScale, CategoryScale, ChartDataset, BarElement } from 'chart.js';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-import { Space, Typography } from 'antd';
+import { Space, Typography, message } from 'antd';
 import './style.scss'
+import { statisticApi } from '../../../../../apis/statistic';
+import { useParams } from 'react-router-dom';
 
 ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale, BarElement)
 function UserMnDashboardChart() {
-    
+    const {id} = useParams();
+    const [dataRawLineChart, setDataRawLineChart] = useState([]);
+    const fetcherDataLine = async () => {
+        try {
+            const res = await statisticApi.getNumOfPrevent24hById(Number(id));
+            console.log(res);
+            
+            if(res.status === 200) setDataRawLineChart(res.data)
+            else message.error("Data number of prevent get error")
+        } catch (error) {
+            message.error("Data number of prevent get error");
+        }
+    }
+    useEffect(() => {
+        fetcherDataLine();
+    },[])
     const dataPieChart = {
         labels: ['90182', '90172', '90376', '90847', '90843'],
         datasets: [
@@ -22,25 +39,16 @@ function UserMnDashboardChart() {
 
     }
     const dataLineChart: any = {
-        labels: ['0.00-3.00', '3.00-6.00', '6.00-9.00', '9.00-12.00', '12.00-15.00', '15.00-18.00', '18.00-21.00', '21.00-24.00'],
+        labels: dataRawLineChart?.map((item: any) => item.time),
         datasets: [
             {
-                label: 'safe',
-                data: [20, 6, 9, 12, 5, 18, 50, 30],
-                borderColor: '#52c41a',
-                backgroundColor: '#52c41a',
-                borderWidth: 1,
-                fill: true,
-                pointBorderColor: 'green',
-            },
-            {
-                label: 'dangerous',
-                data: [2, 1, 0, 3, 2, 3, 4, 10],
+                label: 'Prevented',
+                data: dataRawLineChart.map((item: any) => item.number_of_prevented),
                 borderColor: 'rgba(255, 99, 132, 1)',
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderWidth: 1,
-                fill: true,
                 pointBorderColor: 'red',
+                fill: true,
             }
         ]
     }

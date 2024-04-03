@@ -2,6 +2,11 @@ import { AgentType } from "../constants/types/agent.type";
 import { WAFAxiosClient } from "./base";
 
 export const agentApi = {
+  getById: (id?: string) => {
+    return WAFAxiosClient(`/getagent/${id}`, {
+      method: 'GET',
+    }) 
+  },
   add: (data?: AgentType) => {
     return WAFAxiosClient("/addagent", {
       method: "POST",

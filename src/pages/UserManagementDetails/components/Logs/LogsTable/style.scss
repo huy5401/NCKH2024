@@ -1,15 +1,6 @@
-.categories-administratives-table-container {
-  .inline-text {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+.ant-table-cell>.remote_address-text{
+  &:hover{
+    cursor: pointer;
   }
-}
-
-.page-container {
-  .ant-card-body .total-Page-SystemParam {
-    position: absolute;
-    bottom: 12px;
-    left: 100px;
-  }
+  color: #1a6de3;
 }
