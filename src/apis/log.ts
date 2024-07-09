@@ -3,7 +3,7 @@ import { serialize } from "../utils/validate";
 import { WAFAxiosClient } from "./base";
 
 export const LogsApi = {
-  exportExcell: (filters?: FilterLogType, params?: { local_port?: string }) => {
+  exportExcell: (filters?: FilterLogType, params?: { local_port?: string, ServerName?:string }) => {
     return WAFAxiosClient(`/get_log_within_time_xlsx?${serialize({ ...filters, ...params })}`, {
       method: "GET",
       responseType: 'arraybuffer',

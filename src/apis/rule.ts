@@ -3,7 +3,7 @@ import { serialize } from "../utils/validate"
 import { WAFAxiosClient } from "./base"
 
 export const RuleApi = {
-    getByServername: (params: {ServerName?:string}) => {
+    getByServernamePort: (params: {ServerName?:string, Port?:string}) => {
         return WAFAxiosClient('/get_rule', {
             method: 'GET',
             params

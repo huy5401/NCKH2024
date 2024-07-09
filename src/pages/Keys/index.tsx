@@ -42,7 +42,7 @@ const Rules: FC<Props> = ({ agentData }) => {
   const fetchDataRule = async () => {
     setIsLoading(true);
     try {
-      const res = await RuleApi.getByServername({ ServerName: agentData.ServerName });
+      const res = await RuleApi.getByServernamePort({ ServerName: agentData.ServerName, Port: agentData.Port });
       if (res.status === 200) {
         setDataRule(res.data);
         setIsLoading(false);
@@ -69,6 +69,7 @@ const Rules: FC<Props> = ({ agentData }) => {
   const handleUpdate = async () => {
     const data: UpdateRuleType = {
       ServerName: agentData.ServerName,
+      Port: agentData.Port,
       rules: dataRuleChange
     }
     setIsLoading(true);

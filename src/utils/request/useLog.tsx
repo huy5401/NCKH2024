@@ -6,10 +6,11 @@ import { FilterLogType } from "../../constants/types/log.type";
 export const useLog = (
     params?: CommonGetAllParams,
     filter?: FilterLogType,
-    local_port?: string
+    local_port?: string,
+    server_name?:string
 ) => {
     const { data, error, isLoading, mutate } = useSWR(
-        `/getLogWithinTime?local_port=${local_port}&${serialize({
+        `/getLogWithinTime?local_port=${local_port}&ServerName=${server_name}&${serialize({
             ...params,
             ...filter,
             
