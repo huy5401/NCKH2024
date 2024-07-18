@@ -1,4 +1,4 @@
-import { Button, Card, Space, Tooltip, Typography, message } from "antd";
+import { Button, Card, Dropdown, Menu, Space, Tooltip, Typography, message } from "antd";
 import { FC, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import { saveAs } from 'file-saver'
@@ -25,7 +25,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
   });
   const [selectedRemoteAddr, setSelectedRemoteAddr] = useState<string>("");
   const [isOpenAttackerMapModal, setIsOpenAttackerMapModal] = useState<boolean>(false);
-  const { data, isLoading, error, mutate } = useLog(params, filter, agentData.Port);
+  const { data, isLoading, error, mutate } = useLog(params, filter, agentData.Port, agentData.ServerName);
   const getFIleName = () => {
       const currentTime = new Date().getTime();
       const fileName = `modseclogs_${currentTime}p${agentData.Port}t${filter.time}`
@@ -33,7 +33,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
   }
   const handleExport = async () => {
     try {
-      const response = await LogsApi.exportExcell(filter, { local_port: agentData.Port });
+      const response = await LogsApi.exportExcell(filter, { local_port: agentData.Port, ServerName:agentData.ServerName });
       if (response.status === 200) {
         var blob = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -52,6 +52,27 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
   const closeAttackerMapModalHandler = () => {
     setIsOpenAttackerMapModal(false);
   }
+  const handleViewLocation = (remote_address: string) => {
+    // Implement view location logic here
+    message.info(`View location for ${remote_address}`);
+    openAttackerMapModalHandler(remote_address);
+  };
+
+  const handleAddToBlacklist = (remote_address: string) => {
+    // Implement add to blacklist logic here
+    message.info(`Add ${remote_address} to blacklist`);
+  };
+  const contextMenu = (remote_address: string) => (
+    <Menu>
+      <Menu.Item key="viewLocation" onClick={() => handleViewLocation(remote_address)}>
+        View Location
+      </Menu.Item>
+      <Menu.Item key="addToBlacklist" onClick={() => handleAddToBlacklist(remote_address)}>
+        Add to Blacklist
+      </Menu.Item>
+    </Menu>
+  );
+
   const columns: ColumnsType<LogType> = [
     {
       key: 1,
@@ -93,9 +114,14 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       width: "10%",
       align: "left",
       render: (remote_address) => (
-        <Tooltip title={remote_address}>
-          <div className="inline-text remote_address-text" onClick={() => openAttackerMapModalHandler(remote_address)}><u>{remote_address}</u></div>
-        </Tooltip>
+        // <Tooltip title={remote_address}>
+        //   <div className="inline-text remote_address-text" onClick={() => openAttackerMapModalHandler(remote_address)} onContextMenu={(event) => handleContextMenu(event, remote_address)}><u>{remote_address}</u></div>
+        // </Tooltip>
+        <Dropdown overlay={contextMenu(remote_address)} trigger={['contextMenu']}>
+          <Tooltip title={remote_address}>
+            <div className="inline-text remote_address-text"><u>{remote_address}</u></div>
+          </Tooltip>
+        </Dropdown>
       ),
     },
     {

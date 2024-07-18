@@ -20,6 +20,8 @@ const request = axios.create({
 request.defaults.headers.common["Authorization"] = `Bearer ${localStorage.getItem('access_token')}`
 request.interceptors.request.use(async (config) => config);
 
+
+// waf
 const WAFAxiosClient = axios.create({
     baseURL: process.env.REACT_APP_SERVER_URL,
     headers: {

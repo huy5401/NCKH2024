@@ -9,7 +9,6 @@ import { ConfigApi } from '../../apis/config';
 import './style.scss';
 import { RuleApi } from '../../apis/rule';
 import * as Yup from 'yup';
-import TextArea from 'antd/es/input/TextArea';
 type ModeAIType = {
   mode?: "On" | "Off"
 }
@@ -44,18 +43,18 @@ const Settings = () => {
     try {
       const resModelCNN = await RuleApi.getModeCNN();
       if (resModelCNN.status === 200) setModeCNN(resModelCNN.data)
-      else message.error("Get mode CNN error")
+      else message.error("Get model CNN error")
     } catch (error) {
-      message.error("Get mode CNN error")
+      message.error("Get model CNN error")
     }
   }
   const fecthModeSVM = async () => {
     try {
       const resModelSVM = await RuleApi.getModeSVm();
       if (resModelSVM.status === 200) setModeSVM(resModelSVM.data)
-      else message.error("Get mode SVM error")
+      else message.error("Get model SVM error")
     } catch (error) {
-      message.error("Get mode SVM error")
+      message.error("Get model SVM error")
     }
   }
   useEffect(() => {
@@ -97,16 +96,16 @@ const Settings = () => {
   const handleChangeModelCNN = (e: any) => {
     Modal.confirm({
       title: 'Confirm',
-      content: 'You definitely want to enable CNN model?',
+      content: e ? 'You definitely want to enable CNN model?' :  'You definitely want to disable CNN model?',
       onOk: async () => {
         try {
           const res = await RuleApi.updateModelCNN({ mode: e ? "On" : "Off" });
-          if (res.status === 200) message.success("Update mode CNN successfully")
+          if (res.status === 200) message.success(e ? "Enable model CNN successfully" : "Disable model CNN successfully")
           else {
-            message.error("Update mode CNN error");
+            message.error(e ? "Enable model CNN error" : "Disable model CNN error");
           }
         } catch (error) {
-          message.error("Update mode CNN error");
+          message.error(e ? "Enable model CNN error" : "Disable model CNN error");
         }
         fecthModeCNN();
       },
@@ -118,16 +117,16 @@ const Settings = () => {
   const handleChangeModelSVM = (e: any) => {
     Modal.confirm({
       title: 'Confirm',
-      content: 'You definitely want to enable SVM model?',
+      content: e ? 'You definitely want to enable SVM model?' : 'You definitely want to disable SVM model?',
       onOk: async () => {
         try {
           const res = await RuleApi.updateModelSVM({ mode: e ? "On" : "Off" });
-          if (res.status === 200) message.success("Update mode SVM successfully")
+          if (res.status === 200) message.success(e ? "Enable model SVM successfully" : "Disable model SVM successfully")
           else {
-            message.error("Update mode SVM error");
+            message.error(e ? "Enable model SVM error" : "Disable model SVM error");
           }
         } catch (error) {
-          message.error("Update mode SVM error");
+          message.error(e ? "Enable model SVM error" : "Disable model SVM error");
         }
         fecthModeSVM();
       },

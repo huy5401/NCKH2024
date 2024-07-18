@@ -5,14 +5,11 @@ import {
 import "./style.scss";
 import TextArea from "antd/es/input/TextArea";
 import ButtonCustom from "../../components/ButtonCustom";
-import { AgentType } from "../../constants/types/agent.type";
 import { RuleApi } from "../../apis/rule";
 import { UpdateRuleType } from "../../constants/types/rules.type";
 
-type Props = {
-  agentData: AgentType;
-}
-const Rules: FC<Props> = ({ agentData }) => {
+
+const FileRuleConfigDetail = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [dataRule, setDataRule] = useState("");
@@ -40,19 +37,19 @@ const Rules: FC<Props> = ({ agentData }) => {
   }
 
   const fetchDataRule = async () => {
-    setIsLoading(true);
-    try {
-      const res = await RuleApi.getByServernamePort({ ServerName: agentData.ServerName, Port: agentData.Port });
-      if (res.status === 200) {
-        setDataRule(res.data);
-        setIsLoading(false);
-      } else {
-        message.error("Get rule error");
-      }
-    } catch (error) {
-      message.error("Get rule error");
-      setIsLoading(false);
-    }
+    //setIsLoading(true);
+    // try {
+    //   const res = await RuleApi.getByServernamePort({ ServerName: agentData.ServerName, Port: agentData.Port });
+    //   if (res.status === 200) {
+    //     setDataRule(res.data);
+    //     setIsLoading(false);
+    //   } else {
+    //     message.error("Get rule error");
+    //   }
+    // } catch (error) {
+    //   message.error("Get rule error");
+    //   setIsLoading(false);
+    // }
   }
   useEffect(() => {
     if (dataRule) {
@@ -67,25 +64,25 @@ const Rules: FC<Props> = ({ agentData }) => {
     setDataRuleChange(e.target.value);
   }
   const handleUpdate = async () => {
-    const data: UpdateRuleType = {
-      ServerName: agentData.ServerName,
-      Port: agentData.Port,
-      rules: dataRuleChange
-    }
-    setIsLoading(true);
-    try {
-      const res = await RuleApi.update(data);
-      if (res.status === 200) {
-        message.success(res.data.message);
-        setIsLoading(false);
-        fetchDataRule();
-      } else {
-        message.error("Update rule fail");
-      }
-    } catch (error) {
-      message.error("Update rule fail");
-      setIsLoading(false);
-    }
+    // const data: UpdateRuleType = {
+    //   ServerName: agentData.ServerName,
+    //   Port: agentData.Port,
+    //   rules: dataRuleChange
+    // }
+    // setIsLoading(true);
+    // try {
+    //   const res = await RuleApi.update(data);
+    //   if (res.status === 200) {
+    //     message.success(res.data.message);
+    //     setIsLoading(false);
+    //     fetchDataRule();
+    //   } else {
+    //     message.error("Update rule fail");
+    //   }
+    // } catch (error) {
+    //   message.error("Update rule fail");
+    //   setIsLoading(false);
+    // }
   }
   const handleCancel = () => {
     setIsEdit(false);
@@ -127,4 +124,4 @@ const Rules: FC<Props> = ({ agentData }) => {
   );
 };
 
-export default Rules;
+export default FileRuleConfigDetail;

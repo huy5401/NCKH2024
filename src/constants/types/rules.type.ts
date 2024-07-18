@@ -4,5 +4,6 @@ export type RuleType = {
 
 export type UpdateRuleType = {
     ServerName?: string;
+    Port?:string;
     rules?: string;
 }

@@ -10,6 +10,8 @@ import {
   LOG,
   RULE,
   USER_MANAGEMENT,
+  RULE_MANAGEMENT,
+  LIST_BLOCK_IP,
 } from "../../../../../../routes/route.constant";
 import { Link } from "react-router-dom";
 
@@ -40,9 +42,9 @@ const items: MenuItem[] = [
   //   getItem('Option 4', '4'),
   // ]),
   getItem(<Link to={USER_MANAGEMENT}>Management</Link>, '2', <ApartmentOutlined />),
-  // getItem(<Link to={RULE}>Rule</Link>, '5', <LockFilled />),
-  // getItem(<Link to={LOG}>Logs</Link>, '6', <FileTextOutlined />),
-  getItem(<Link to={SETTING}>Setting</Link>, '3', <SettingFilled />),
+  getItem(<Link to={RULE_MANAGEMENT}>Rule Management</Link>, '3', <LockFilled />),
+  getItem(<Link to={LIST_BLOCK_IP}>List Blocked IP</Link>, '4', <FileTextOutlined />),
+  getItem(<Link to={SETTING}>Setting</Link>, '5', <SettingFilled />),
 ];
 export const SideBar: React.FC = () => {
   return (
@@ -51,7 +53,7 @@ export const SideBar: React.FC = () => {
         <Row className="w-100 menuTab">
           <Menu
             defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
+            defaultOpenKeys={['1']}
             inlineIndent={10}
             items={items}
             mode="inline"
