@@ -7,7 +7,7 @@ export const useAgent = (
     filter?: {filters?: string}
 ) => {
     const { data, error, isLoading, mutate } = useSWR(
-        `/getagent?${serialize({
+        `/agent/getagent?${serialize({
             ...params,
             ...filter
         })}`,

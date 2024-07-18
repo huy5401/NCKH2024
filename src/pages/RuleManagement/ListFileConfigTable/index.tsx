@@ -73,83 +73,34 @@ const ListFileConfigTable: FC<Props> = ({ filter }) => {
     },
     {
       key: 2,
-      title: "Agent name",
-      dataIndex: "ServerName",
+      title: "File name",
+      dataIndex: "file_name",
       align: "center",
-      render: (servername) => (
-        <Tooltip title={servername}>
-          <div className="inline-text">{servername}</div>
+      render: (file_name) => (
+        <Tooltip title={file_name}>
+          <div className="inline-text">{file_name}</div>
         </Tooltip>
       ),
     },
     {
       key: 3,
-      title: "Protocol",
-      dataIndex: "Protocol",
+      title: "Created At",
+      dataIndex: "createdAt",
       align: "center",
-      render: (protocol) => (
-        <Tooltip title={protocol}>
-          <div className="inline-text">{protocol}</div>
+      render: (createdAt) => (
+        <Tooltip title={createdAt}>
+          <div className="inline-text">{createdAt}</div>
         </Tooltip>
       ),
     },
     {
       key: 4,
-      title: "Proxy preserve host",
-      dataIndex: "ProxyPreserveHost",
+      title: "Edited At",
+      dataIndex: "editedAt",
       align: "center",
-      render: (proxypreservehost) => (
-        <Tooltip title={proxypreservehost}>
-          <div className="inline-text">{proxypreservehost}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      key: 5,
-      title: "Proxypass",
-      dataIndex: "ProxyPass",
-      align: "center",
-      render: (proxypass) => (
-        <Tooltip title={proxypass}>
-          <div className="inline-text">{proxypass}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      key: 6,
-      title: "Proxypass reverse",
-      dataIndex: "ProxyPassReverse",
-      align: "center",
-      render: (proxypassreverse) => (
-        <Tooltip title={proxypassreverse}>
-          <div className="inline-text">{proxypassreverse}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      key: 7,
-      title: "Server port",
-      dataIndex: "Port",
-      align: "center",
-      render: (Port) => (
-        <Tooltip title={Port}>
-          <div className="inline-text">{Port}</div>
-        </Tooltip>
-      ),
-    },
-    {
-      key: 8,
-      title: "Rule engine",
-      dataIndex: "SecRuleEngine",
-      align: "center",
-      render: (SecRuleEngine, record,_) => (
-        <Tooltip title={SecRuleEngine}>
-          {/* <div className="inline-text">{SecRuleEngine}</div> */}
-          <Select style={{width: 100}} defaultValue={SecRuleEngine} onChange={(e) => handleChangeRuleEngine(e, record.ServerName)}>
-             <Select.Option key={1} value="On">On</Select.Option>
-             <Select.Option key={2} value="Off">Off</Select.Option>
-             <Select.Option key={3} value="DetectionOnly">DetectionOnly</Select.Option>
-          </Select>
+      render: (editedAt) => (
+        <Tooltip title={editedAt}>
+          <div className="inline-text">{editedAt}</div>
         </Tooltip>
       ),
     },

@@ -6,8 +6,10 @@ import dashboardRoute from '../pages/Dashboard/route';
 import userManagementRoute from '../pages/UserManagement/route';
 import userManagementDetailsRoute from '../pages/UserManagementDetails/route';
 import addAgentRoute from '../pages/AddAgent/route';
+import addFileRuleConfigRoute from '../pages/AddFileRuleConfig/route';
 import ruleManagementRoute from '../pages/RuleManagement/route';
 import listBlockIPRoute from '../pages/ListBlockIP/route';
+import fileRuleConfigDetailRoute from '../pages/FileRuleConfigDetail/route'
 export default [
   settingRoute,
   accountRoute,
@@ -18,5 +20,7 @@ export default [
   userManagementDetailsRoute,
   addAgentRoute,
   ruleManagementRoute,
-  listBlockIPRoute
+  listBlockIPRoute,
+  addFileRuleConfigRoute,
+  fileRuleConfigDetailRoute
 ];

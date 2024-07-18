@@ -3,24 +3,24 @@ import { WAFAxiosClient } from "./base";
 
 export const agentApi = {
   getById: (id?: string) => {
-    return WAFAxiosClient(`/getagent/${id}`, {
+    return WAFAxiosClient(`/agent/getagent/${id}`, {
       method: 'GET',
     }) 
   },
   add: (data?: AgentType) => {
-    return WAFAxiosClient("/addagent", {
+    return WAFAxiosClient("/agent/addagent", {
       method: "POST",
       data,
     })
   },
   update: (data?: AgentType) => {
-    return WAFAxiosClient(`/updateagent/${data?.id}`, {
+    return WAFAxiosClient(`/agent/updateagent/${data?.id}`, {
       method: 'PUT',
       data
     })
   },
   delete: (id?: number) => {
-    return WAFAxiosClient(`/deleteagent/${id}`, {
+    return WAFAxiosClient(`/agent/deleteagent/${id}`, {
       method: 'DELETE',
     }) 
   }

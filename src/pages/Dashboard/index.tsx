@@ -62,7 +62,7 @@ const Dashboard = () => {
     <div className="customers-wrapper">
       <Spin spinning={isLoading}>
         <Space direction="horizontal" className="dasboard-gn-wrapper">
-          <DashboardGeneralItem title="Number of service" value={data?.data.length || 0} icon={<Icons.bell />} />
+          <DashboardGeneralItem title="Number of service" value={data?.data?.length || 0} icon={<Icons.bell />} />
           <DashboardGeneralItem title="Number of prevent" value={numOfPrevent24} icon={<Icons.file />} />
         </Space>
         <DashboardChart />

@@ -10,7 +10,7 @@ export const useLog = (
     server_name?:string
 ) => {
     const { data, error, isLoading, mutate } = useSWR(
-        `/getLogWithinTime?local_port=${local_port}&ServerName=${server_name}&${serialize({
+        `/log/getLogWithinTime?local_port=${local_port}&ServerName=${server_name}&${serialize({
             ...params,
             ...filter,
             
