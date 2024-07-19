@@ -62,10 +62,17 @@ export const RuleApi = {
             params
         })
     },
+    
     deleteIPFromBlacklist: (params: { ip_address?: string }) => {
         return WAFAxiosClient('/rule/delete_ip_from_blacklist', {
             method: 'DELETE',
             params
+        })
+    },
+    addRuleFile: (data: {name?:string, rules:string}) => {
+        return WAFAxiosClient('/rule/create_rule_file', {
+            method: 'POST',
+            data
         })
     },
     updateRuleFileContent: (data: {name?:string, rules:string}) => {
@@ -80,34 +87,9 @@ export const RuleApi = {
             data
         })
     },
-    updateModeAgent: (params: { ServerName?: string, mode?: string }) => {
-        return WAFAxiosClient(`/rule/update_mode_agent?${serialize({ ...params })}`, {
-            method: 'POST'
-        })
-    },
-    updateModelCNN: (params: { mode?: string }) => {
-        return WAFAxiosClient(`/rule/update_mode_AI_CNN?${serialize({ ...params })}`, {
-            method: 'POST'
-        })
-    },
-    updateModelSVM: (params: { mode?: string }) => {
-        return WAFAxiosClient(`/rule/update_mode_AI_vtr?${serialize({ ...params })}`, {
-            method: 'POST'
-        })
-    },
     updateCRS: () => {
         return WAFAxiosClient('/rule/update_crs', {
             method: 'GET',
         })
     },
-    getModeCNN: () => {
-        return WAFAxiosClient('/rule/get_mode_AI_CNN', {
-            method: 'GET',
-        })
-    },
-    getModeSVm: () => {
-        return WAFAxiosClient('/rule/get_mode_AI_vtr', {
-            method: 'GET',
-        })
-    }
 }

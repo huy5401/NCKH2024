@@ -41,7 +41,7 @@ const Settings = () => {
   }
   const fecthModeCNN = async () => {
     try {
-      const resModelCNN = await RuleApi.getModeCNN();
+      const resModelCNN = await ConfigApi.getModeCNN();
       if (resModelCNN.status === 200) setModeCNN(resModelCNN.data)
       else message.error("Get model CNN error")
     } catch (error) {
@@ -50,7 +50,7 @@ const Settings = () => {
   }
   const fecthModeSVM = async () => {
     try {
-      const resModelSVM = await RuleApi.getModeSVm();
+      const resModelSVM = await ConfigApi.getModeSVm();
       if (resModelSVM.status === 200) setModeSVM(resModelSVM.data)
       else message.error("Get model SVM error")
     } catch (error) {
@@ -99,7 +99,7 @@ const Settings = () => {
       content: e ? 'You definitely want to enable CNN model?' :  'You definitely want to disable CNN model?',
       onOk: async () => {
         try {
-          const res = await RuleApi.updateModelCNN({ mode: e ? "On" : "Off" });
+          const res = await ConfigApi.updateModelCNN({ mode: e ? "On" : "Off" });
           if (res.status === 200) message.success(e ? "Enable model CNN successfully" : "Disable model CNN successfully")
           else {
             message.error(e ? "Enable model CNN error" : "Disable model CNN error");
@@ -120,7 +120,7 @@ const Settings = () => {
       content: e ? 'You definitely want to enable SVM model?' : 'You definitely want to disable SVM model?',
       onOk: async () => {
         try {
-          const res = await RuleApi.updateModelSVM({ mode: e ? "On" : "Off" });
+          const res = await ConfigApi.updateModelSVM({ mode: e ? "On" : "Off" });
           if (res.status === 200) message.success(e ? "Enable model SVM successfully" : "Disable model SVM successfully")
           else {
             message.error(e ? "Enable model SVM error" : "Disable model SVM error");

@@ -12,7 +12,7 @@ function DashboardChart() {
     const fetcherDataLine = async () => {
         try {
             const res = await statisticApi.getNumOfPrevent24h();
-            if(res.status === 200) setDataRawLineChart(res.data)
+            if (res.status === 200) setDataRawLineChart(res.data)
             else message.error("Data number of prevent get error")
         } catch (error) {
             message.error("Data number of prevent get error");
@@ -21,7 +21,7 @@ function DashboardChart() {
     const fetchDataTop10SrcIP = async () => {
         try {
             const res = await statisticApi.getTop10SourceIp();
-            if(res.status===200) setDataTop10SourceIP(res.data)
+            if (res.status === 200) setDataTop10SourceIP(res.data)
             else message.error("Get data top 10 source ip fail");
         } catch (error) {
             message.error("Get data top 10 source ip fail");
@@ -30,10 +30,10 @@ function DashboardChart() {
     useEffect(() => {
         fetcherDataLine();
         fetchDataTop10SrcIP();
-    },[])
+    }, [])
     //const { data: dataRawLineChart, mutate, isLoading, error } = useNumOfPrevent24h();
     const top10Source = {
-        labels: dataTop10SourceIP.map((item:any) => item.ip),
+        labels: dataTop10SourceIP.map((item: any) => item.ip),
         datasets: [
             {
                 label: 'Top 10 source IP',
@@ -42,7 +42,7 @@ function DashboardChart() {
                 borderWidth: 1,
                 hoverBackgroundColor: ['rgba(75,192,192,0.6)', 'rgba(255,99,132,0.6)', 'rgba(255,205,86,0.6)', 'rgba(54,162,235,0.6)', 'rgba(153,102,255,0.6)'],
                 hoverBorderColor: 'rgba(75,192,192,1)',
-                data: dataTop10SourceIP.map((item:any) => item.count),
+                data: dataTop10SourceIP.map((item: any) => item.count),
             },
         ],
     };
@@ -73,11 +73,17 @@ function DashboardChart() {
             }
         ]
     }
-    const optionsLine: ChartOptions = {
+    const optionsLine: ChartOptions<'line'> = {
         responsive: true,
         plugins: {
             legend: {
-                display:false,
+                display: false,
+            },
+        },
+        scales: {
+            y: {
+                beginAtZero: true, // Ensures that the y-axis starts at 0
+                min: 0,
             },
         },
     }

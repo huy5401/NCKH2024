@@ -7,10 +7,12 @@ import { Form, Input, Space, Typography, message } from "antd";
 import ButtonCustom from "../../components/ButtonCustom";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
+import { RuleApi } from "../../apis/rule";
 const AddFileRuleConfig = () => {
     const dispatch = useDispatch();
     const [dataRuleFileChange, setDataRuleFileChange] = useState("");
     const [form] = useForm();
+    const [isLoading, setIsLoading] = useState(false);
     useEffect(() => {
         let breadCrumb = [
             {
@@ -47,19 +49,31 @@ const AddFileRuleConfig = () => {
         }
     }
     const handleChangeRuleFile = (e: any) => {
-        console.log(e.target.value);
         setDataRuleFileChange(e.target.value);
+    }
+    const createRuleFileHanlder = async (values: any) => {
+        setIsLoading(true);
+        try {
+            const res = await RuleApi.addRuleFile(values);
+            if(res.status === 200){
+                message.success("Created rule file successfully");
+                form.resetFields();
+            }else message.error("Created rule file failed");
+        } catch (error) {
+            message.error("Created rule file failed");
+        }
+        setIsLoading(false);
     }
     return (
         <div className="container-wrapper">
             <Typography className="addFileRule-title" style={{ marginBottom: '10px', fontSize: '1.5rem' }}>Create file rule config</Typography>
-            <Form form={form} layout="vertical" className="add-fileRule-form">
+            <Form form={form} layout="vertical" className="add-fileRule-form" onFinish={createRuleFileHanlder}>
                 <Form.Item
                     label="File name"
-                    name="file_name"
+                    name="name"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder="quandoanx.conf" />
+                    <Input placeholder="quandoanx" addonAfter=".conf"/>
                 </Form.Item>
                 <Form.Item
                     label="File content"
@@ -68,13 +82,14 @@ const AddFileRuleConfig = () => {
                 >
                     <TextArea rows={18} value={dataRuleFileChange} onChange={handleChangeRuleFile} onKeyUp={handleCommandKey} />
                 </Form.Item>
-                <Space style={{ justifyContent: "end", width: "100%", padding: "10px 0" }}>
+                <Space style={{ justifyContent: "end", width: "100%" }}>
                     <ButtonCustom
                         label="Create"
                         bgColor="#2862AF"
                         type="primary"
                         htmlType="submit"
                         onClick={() => { }}
+                        loading={isLoading}
                     />
                 </Space>
             </Form>

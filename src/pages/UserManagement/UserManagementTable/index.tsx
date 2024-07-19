@@ -12,6 +12,7 @@ import { useAgent } from "../../../utils/request";
 import EditAgentModal from "../UsermgnEditModal";
 import { agentApi } from "../../../apis/agent";
 import { RuleApi } from "../../../apis/rule";
+import { ConfigApi } from "../../../apis/config";
 
 
 type Props = {
@@ -38,9 +39,9 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
   const closeEditModalHandler = () => {
     setIsOpenEditModal(false);
   }
-  const handleChangeRuleEngine = async (e:any, ServerName?:string) => {
+  const handleChangeRuleEngine = async (e:any, ServerName?:string, Port?:string) => {
     try {
-        const res = await RuleApi.updateModeAgent({ServerName: ServerName, mode: e});
+        const res = await ConfigApi.updateModeAgent({ServerName: ServerName, Port:Port, mode: e});
         if(res.status === 200){
             message.success(res.data.message);
             mutate();
@@ -146,7 +147,7 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
       render: (SecRuleEngine, record,_) => (
         <Tooltip title={SecRuleEngine}>
           {/* <div className="inline-text">{SecRuleEngine}</div> */}
-          <Select style={{width: 100}} defaultValue={SecRuleEngine} onChange={(e) => handleChangeRuleEngine(e, record.ServerName)}>
+          <Select style={{width: 100}} defaultValue={SecRuleEngine} onChange={(e) => handleChangeRuleEngine(e, record.ServerName, record.Port)}>
              <Select.Option key={1} value="On">On</Select.Option>
              <Select.Option key={2} value="Off">Off</Select.Option>
              <Select.Option key={3} value="DetectionOnly">DetectionOnly</Select.Option>
