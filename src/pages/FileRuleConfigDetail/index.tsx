@@ -6,14 +6,32 @@ import "./style.scss";
 import TextArea from "antd/es/input/TextArea";
 import ButtonCustom from "../../components/ButtonCustom";
 import { RuleApi } from "../../apis/rule";
-import { UpdateRuleType } from "../../constants/types/rules.type";
+import { RULE_FILE_DETAILS, RULE_MANAGEMENT } from "../../routes/route.constant";
+import { setSelectedBreadCrumb } from "../App/store/appSlice";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
 
 const FileRuleConfigDetail = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [dataRule, setDataRule] = useState("");
-  const [dataRuleChange, setDataRuleChange] = useState("");
+  const [dataRuleFile, setDataRuleFile] = useState("");
+  const [dataRuleFileChange, setDataRuleFileChange] = useState("");
+  const dispatch = useDispatch();
+  const {id:fileName} = useParams();
+  useEffect(() => {
+    let breadCrumb = [
+      {
+        label: "Rule management",
+        path: RULE_MANAGEMENT
+      },
+      {
+        label: "Rule File Detail",
+        path: ""
+      }
+    ]
+    dispatch(setSelectedBreadCrumb(breadCrumb))
+  }, [RULE_FILE_DETAILS])
   const handleCommandKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === '/' && e.ctrlKey) {
       e.preventDefault();
@@ -21,104 +39,105 @@ const FileRuleConfigDetail = () => {
       const selectionStart = textArea.selectionStart || 0;
       const selectionEnd = textArea.selectionEnd || 0;
       // Lấy vị trí dấu xuống dòng trước và sau vùng được bôi đen
-      const startLineIndex = dataRuleChange.lastIndexOf('\n', selectionStart - 1) + 1;
-      const endLineIndex = dataRuleChange.indexOf('\n', selectionEnd);
+      const startLineIndex = dataRuleFileChange.lastIndexOf('\n', selectionStart - 1) + 1;
+      const endLineIndex = dataRuleFileChange.indexOf('\n', selectionEnd);
 
       // Lấy dòng vừa bôi đen
-      const selectedLines = dataRuleChange.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
+      const selectedLines = dataRuleFileChange.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
       // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
       const modifiedLines = selectedLines.split('\n').map(line => {
-        if(line.trim().startsWith('#')) return line.replace('#','')
+        if (line.trim().startsWith('#')) return line.replace('#', '')
         else return '#' + line
       }).join('\n');
-      const updateddataRuleChange = dataRuleChange.substring(0, startLineIndex) + modifiedLines + dataRuleChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleChange.length);     
-      setDataRuleChange(updateddataRuleChange);
+      const updateddataRuleFileChange = dataRuleFileChange.substring(0, startLineIndex) + modifiedLines + dataRuleFileChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleFileChange.length);
+      setDataRuleFileChange(updateddataRuleFileChange);
     }
   }
 
-  const fetchDataRule = async () => {
-    //setIsLoading(true);
-    // try {
-    //   const res = await RuleApi.getByServernamePort({ ServerName: agentData.ServerName, Port: agentData.Port });
-    //   if (res.status === 200) {
-    //     setDataRule(res.data);
-    //     setIsLoading(false);
-    //   } else {
-    //     message.error("Get rule error");
-    //   }
-    // } catch (error) {
-    //   message.error("Get rule error");
-    //   setIsLoading(false);
-    // }
+  const fetchDataRuleFile = async () => {
+    setIsLoading(true);
+    try {
+      const res = await RuleApi.getContentFileRule({ rule_name: fileName });
+      if (res.status === 200) {
+        setDataRuleFile(res.data);
+        setIsLoading(false);
+      } else {
+        message.error("Get rule error");
+      }
+    } catch (error) {
+      message.error("Get rule error");
+      setIsLoading(false);
+    }
   }
   useEffect(() => {
-    if (dataRule) {
-      setDataRuleChange(dataRule)
+    if (dataRuleFile) {
+      setDataRuleFileChange(dataRuleFile)
     }
-  }, [dataRule])
+  }, [dataRuleFile])
   useEffect(() => {
-    fetchDataRule();
+    fetchDataRuleFile();
   }, [])
-  const handleChangeRule = (e: any) => {
+  const handleChangeRuleFile = (e: any) => {
     console.log(e.target.value);
-    setDataRuleChange(e.target.value);
+    setDataRuleFileChange(e.target.value);
   }
   const handleUpdate = async () => {
-    // const data: UpdateRuleType = {
-    //   ServerName: agentData.ServerName,
-    //   Port: agentData.Port,
-    //   rules: dataRuleChange
-    // }
-    // setIsLoading(true);
-    // try {
-    //   const res = await RuleApi.update(data);
-    //   if (res.status === 200) {
-    //     message.success(res.data.message);
-    //     setIsLoading(false);
-    //     fetchDataRule();
-    //   } else {
-    //     message.error("Update rule fail");
-    //   }
-    // } catch (error) {
-    //   message.error("Update rule fail");
-    //   setIsLoading(false);
-    // }
+    const data: any = {
+      name: fileName,
+      rules: dataRuleFileChange
+    }
+    setIsLoading(true);
+    try {
+      const res = await RuleApi.updateRuleFileContent(data);
+      if (res.status === 200) {
+        message.success("Update rule file successfully");
+        setIsLoading(false);
+        fetchDataRuleFile();
+      } else {
+        message.error("Update rule file failed");
+      }
+    } catch (error) {
+      message.error("Update rule file failed");
+      setIsLoading(false);
+    }
   }
   const handleCancel = () => {
     setIsEdit(false);
-    setDataRuleChange(dataRule);
+    setDataRuleFileChange(dataRuleFile);
   }
   return (
-    <div><Form>
-      <TextArea rows={20} value={dataRuleChange} onChange={handleChangeRule} disabled={!isEdit} onKeyUp={handleCommandKey} />
-      <Space style={{ display: "flex", justifyContent: "end" }}>
-        {
-          isEdit ? <> <ButtonCustom
-            size="small"
-            onClick={handleCancel}
-            label="Cancel"
-            disabled={isLoading}
-            style={{ margin: "10px 0" }}
-          />
-            <ButtonCustom
+    <div className="container-wrapper">
+      <div style={{fontSize: "18px", fontWeight: 600, paddingBottom: "10px"}}>{`${fileName}.conf`}</div>
+      <Form>
+        <TextArea rows={20} value={dataRuleFileChange} onChange={handleChangeRuleFile} readOnly={!isEdit} onKeyUp={handleCommandKey} />
+        <Space style={{ display: "flex", justifyContent: "end" }}>
+          {
+            isEdit ? <> <ButtonCustom
+              size="small"
+              onClick={handleCancel}
+              label="Cancel"
+              disabled={isLoading}
+              style={{ margin: "10px 0" }}
+            />
+              <ButtonCustom
+                type="primary"
+                size="small"
+                onClick={handleUpdate}
+                label="Save"
+                loading={isLoading}
+                style={{ margin: "10px 0" }}
+              /></> : <ButtonCustom
               type="primary"
               size="small"
-              onClick={handleUpdate}
-              label="Save"
+              onClick={() => setIsEdit(true)}
+              label="Update"
               loading={isLoading}
               style={{ margin: "10px 0" }}
-            /></> : <ButtonCustom
-            type="primary"
-            size="small"
-            onClick={() => setIsEdit(true)}
-            label="Update"
-            loading={isLoading}
-            style={{ margin: "10px 0" }}
-          />
-        }
+            />
+          }
 
-      </Space>
-    </Form>
+        </Space>
+      </Form>
       {/* <RulesTable /> */}
     </div>
   );

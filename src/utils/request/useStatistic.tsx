@@ -17,3 +17,11 @@ export const useTopRuleHit = () => {
     );
     return {data, error, isLoading, mutate}
 }
+
+export const useGetLevelRequestStatistic = () => {
+    const {data, error, isLoading, mutate} = useSWR(
+        '/log/get_severity',
+        {refreshInterval: 0}
+    );
+    return {data, error, isLoading, mutate}
+}

@@ -9,7 +9,8 @@ import addAgentRoute from '../pages/AddAgent/route';
 import addFileRuleConfigRoute from '../pages/AddFileRuleConfig/route';
 import ruleManagementRoute from '../pages/RuleManagement/route';
 import listBlockIPRoute from '../pages/ListBlockIP/route';
-import fileRuleConfigDetailRoute from '../pages/FileRuleConfigDetail/route'
+import fileRuleConfigDetailRoute from '../pages/FileRuleConfigDetail/route';
+import historyProtect from '../pages/HistoryProtect/route';
 export default [
   settingRoute,
   accountRoute,
@@ -22,5 +23,6 @@ export default [
   ruleManagementRoute,
   listBlockIPRoute,
   addFileRuleConfigRoute,
-  fileRuleConfigDetailRoute
+  fileRuleConfigDetailRoute,
+  historyProtect
 ];

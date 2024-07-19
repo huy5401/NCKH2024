@@ -1,7 +1,7 @@
 import React from "react";
 import { Menu, Row, Space, Typography } from "antd";
 import type { MenuProps } from "antd";
-import { ApartmentOutlined, SettingFilled, AppstoreFilled, LockFilled, FileTextOutlined } from "@ant-design/icons";
+import { ApartmentOutlined, SettingFilled, AppstoreFilled, LockFilled, FileTextOutlined, FileDoneOutlined } from "@ant-design/icons";
 import {
   CUSTOMER,
   ACCOUNT,
@@ -12,6 +12,7 @@ import {
   USER_MANAGEMENT,
   RULE_MANAGEMENT,
   LIST_BLOCK_IP,
+  HISTORY_PROTECT,
 } from "../../../../../../routes/route.constant";
 import { Link } from "react-router-dom";
 
@@ -41,10 +42,11 @@ const items: MenuItem[] = [
   //   getItem('Option 3', '3'),
   //   getItem('Option 4', '4'),
   // ]),
-  getItem(<Link to={USER_MANAGEMENT}>Management</Link>, '2', <ApartmentOutlined />),
-  getItem(<Link to={RULE_MANAGEMENT}>Rule Management</Link>, '3', <LockFilled />),
-  getItem(<Link to={LIST_BLOCK_IP}>List Blocked IP</Link>, '4', <FileTextOutlined />),
-  getItem(<Link to={SETTING}>Setting</Link>, '5', <SettingFilled />),
+  getItem(<Link to={USER_MANAGEMENT}>Agent Management</Link>, '2', <ApartmentOutlined />),
+  getItem(<Link to={HISTORY_PROTECT}>History Protect</Link>, '3', <FileDoneOutlined />),
+  getItem(<Link to={RULE_MANAGEMENT}>Rule Management</Link>, '4', <LockFilled />),
+  getItem(<Link to={LIST_BLOCK_IP}>List Blocked IP</Link>, '5', <FileTextOutlined />),
+  getItem(<Link to={SETTING}>Setting</Link>, '6', <SettingFilled />),
 ];
 export const SideBar: React.FC = () => {
   return (

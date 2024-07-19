@@ -1,0 +1,54 @@
+.modalEditAgent-wrapper {
+    .addAgent-title{
+        font-size: 1.2rem;
+        font-weight: 500;
+        padding: 5px 15px;
+        background-color: #1677ff;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+        color: #FFF;
+    }
+    .ant-modal-content {
+        padding: 0;
+        .ant-modal-body {
+            width: 700px;
+        }
+
+        .Steps-addAgent {
+            padding: 15px;
+            .ant-steps-item-container>.ant-steps-item-content {
+                width: 100%;
+                .ant-steps-item-title{
+                    margin-bottom: 10px;
+                    font-weight: 500;
+                    font-size: 1rem;
+                }
+            }
+
+            .ant-steps-item {
+                width: 50%;
+            }
+
+            .ant-steps-item-content>.ant-steps-item-description {
+                width: 90%;
+                max-width: 500px;
+            }
+
+
+        }
+
+        .addAgentConfig-server-wrapper {
+            .ant-space-item {
+                width: 100%;
+
+                .ant-form-item {
+                    width: 100%;
+                }
+
+                .addAgentConfig-input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

@@ -31,10 +31,10 @@ const Rules: FC<Props> = ({ agentData }) => {
       const selectedLines = dataRuleChange.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
       // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
       const modifiedLines = selectedLines.split('\n').map(line => {
-        if(line.trim().startsWith('#')) return line.replace('#','')
+        if (line.trim().startsWith('#')) return line.replace('#', '')
         else return '#' + line
       }).join('\n');
-      const updateddataRuleChange = dataRuleChange.substring(0, startLineIndex) + modifiedLines + dataRuleChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleChange.length);     
+      const updateddataRuleChange = dataRuleChange.substring(0, startLineIndex) + modifiedLines + dataRuleChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleChange.length);
       setDataRuleChange(updateddataRuleChange);
     }
   }
@@ -74,7 +74,7 @@ const Rules: FC<Props> = ({ agentData }) => {
     }
     setIsLoading(true);
     try {
-      const res = await RuleApi.update(data);
+      const res = await RuleApi.updateRuleFileEachAgent(data);
       if (res.status === 200) {
         message.success(res.data.message);
         setIsLoading(false);
@@ -92,37 +92,36 @@ const Rules: FC<Props> = ({ agentData }) => {
     setDataRuleChange(dataRule);
   }
   return (
-    <div><Form>
-      <TextArea rows={20} value={dataRuleChange} onChange={handleChangeRule} disabled={!isEdit} onKeyUp={handleCommandKey} />
-      <Space style={{ display: "flex", justifyContent: "end" }}>
-        {
-          isEdit ? <> <ButtonCustom
-            size="small"
-            onClick={handleCancel}
-            label="Cancel"
-            disabled={isLoading}
-            style={{ margin: "10px 0" }}
-          />
-            <ButtonCustom
+    <div>
+      <Form>
+        <TextArea rows={20} value={dataRuleChange} onChange={handleChangeRule} readOnly={!isEdit} onKeyUp={handleCommandKey} />
+        <Space style={{ display: "flex", justifyContent: "end" }}>
+          {
+            isEdit ? <> <ButtonCustom
+              size="small"
+              onClick={handleCancel}
+              label="Cancel"
+              disabled={isLoading}
+              style={{ margin: "10px 0" }}
+            />
+              <ButtonCustom
+                type="primary"
+                size="small"
+                onClick={handleUpdate}
+                label="Save"
+                loading={isLoading}
+                style={{ margin: "10px 0" }}
+              /></> : <ButtonCustom
               type="primary"
               size="small"
-              onClick={handleUpdate}
-              label="Save"
+              onClick={() => setIsEdit(true)}
+              label="Update"
               loading={isLoading}
               style={{ margin: "10px 0" }}
-            /></> : <ButtonCustom
-            type="primary"
-            size="small"
-            onClick={() => setIsEdit(true)}
-            label="Update"
-            loading={isLoading}
-            style={{ margin: "10px 0" }}
-          />
-        }
-
-      </Space>
-    </Form>
-      {/* <RulesTable /> */}
+            />
+          }
+        </Space>
+      </Form>
     </div>
   );
 };
