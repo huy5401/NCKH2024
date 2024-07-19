@@ -10,6 +10,7 @@ import DboardTopCardItem from "./component/DboardTopCardItem";
 import { useAgent, useLog, useTopRuleHit } from "../../utils/request";
 import { statisticApi } from "../../apis/statistic";
 import { CommonGetAllParams } from "../../constants/types/common.type";
+import LevelRequestStatisticTable from "./component/LevelRequestStatisticTable";
 const Dashboard = () => {
   const dispatch = useDispatch();
   //const {data:dataTopRule, isLoading, error, mutate} = useTopRuleHit();
@@ -59,12 +60,15 @@ const Dashboard = () => {
   }, [])
 
   return (
-    <div className="customers-wrapper">
+    <div className="container-wrapper">
       <Spin spinning={isLoading}>
         <Space direction="horizontal" className="dasboard-gn-wrapper">
           <DashboardGeneralItem title="Number of service" value={data?.data?.length || 0} icon={<Icons.bell />} />
           <DashboardGeneralItem title="Number of prevent" value={numOfPrevent24} icon={<Icons.file />} />
         </Space>
+        <div style={{ width: "100%", marginBottom: "10px" }}>
+          <LevelRequestStatisticTable />
+        </div>
         <DashboardChart />
         <Space direction="horizontal" className="dasboard-gn-wrapper" style={{ marginTop: 10 }}>
           <DboardTopCardItem title="Top vulnerabilities" value={['XSS', 'SQL Injection', 'File Upload']} icon={<Icons.file />} />

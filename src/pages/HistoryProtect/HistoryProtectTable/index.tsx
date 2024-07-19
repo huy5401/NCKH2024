@@ -4,19 +4,17 @@ import { ColumnsType } from "antd/es/table";
 import { saveAs } from 'file-saver'
 import "./style.scss";
 import dayjs from "dayjs";
-import { CommonGetAllParams } from "../../../../../constants/types/common.type";
-import CardTitleCustom from "../../../../../components/CardTitleCustom";
-import TableCustom from "../../../../../components/TableCustom";
-import { AgentType } from "../../../../../constants/types/agent.type";
-import { FilterLogType, LogType } from "../../../../../constants/types/log.type";
-import { useLog } from "../../../../../utils/request";
-import { Excell } from "../../../../../assets/images";
-import { LogsApi } from "../../../../../apis/log";
-import { AttackerMap } from "../AttackerMap";
-import { RuleApi } from "../../../../../apis/rule";
-import ViewRuleModal from "../../../../HistoryProtect/ModalViewRule";
+import { LogsApi } from "../../../apis/log";
+import { Excell } from "../../../assets/images";
+import CardTitleCustom from "../../../components/CardTitleCustom";
+import TableCustom from "../../../components/TableCustom";
+import { CommonGetAllParams } from "../../../constants/types/common.type";
+import { FilterLogType, LogType } from "../../../constants/types/log.type";
+import { AttackerMap } from "../../UserManagementDetails/components/Logs/AttackerMap";
+import { useHistoryProtect } from "../../../utils/request/useHistoryProtect";
+import ViewRuleModal from "../ModalViewRule";
+import { RuleApi } from "../../../apis/rule";
 type Props = {
-  agentData: AgentType;
   filter: FilterLogType;
   setFilter: (filter: FilterLogType) => void;
 }
@@ -24,27 +22,24 @@ type RuleSelected = {
   rule_id: string;
   rule_file: string;
 }
-const LogsTable: FC<Props> = ({ agentData, filter }) => {
+const HistoryProtectTable: FC<Props> = ({ filter }) => {
   const [params, setParams] = useState<CommonGetAllParams>({
     number: 10,
     page: 1,
   });
-  const [selectedRule, setSelectedRule] = useState<RuleSelected>({ rule_file: "", rule_id: "" });
-
   const [selectedRemoteAddr, setSelectedRemoteAddr] = useState<string>("");
-  const [isOpenAttackerMapModal, setIsOpenAttackerMapModal] = useState<boolean>(false);
+  const [selectedRule, setSelectedRule] = useState<RuleSelected>({ rule_file: "", rule_id: "" });
   const [isOpenRuleCntModal, setIsOpenRuleCntModal] = useState<boolean>(false);
-  const { data, isLoading, error, mutate } = useLog(params, filter, agentData.Port, agentData.ServerName);
-
-
+  const [isOpenAttackerMapModal, setIsOpenAttackerMapModal] = useState<boolean>(false);
+  const { data, isLoading, error, mutate } = useHistoryProtect(params, filter);
   const getFIleName = () => {
-      const currentTime = new Date().getTime();
-      const fileName = `modseclogs_${currentTime}p${agentData.Port}t${filter.time}`
-      return fileName;
+    const currentTime = new Date().getTime();
+    const fileName = `modseclogs_${currentTime}t${filter.time}`
+    return fileName;
   }
   const handleExport = async () => {
     try {
-      const response = await LogsApi.exportExcell(filter, { local_port: agentData.Port, ServerName:agentData.ServerName });
+      const response = await LogsApi.exportExcell(filter);
       if (response.status === 200) {
         var blob = new Blob([response.data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -55,6 +50,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       message.error("Export file excell error")
     }
   };
+
   const closeAttackerMapModalHandler = () => {
     setIsOpenAttackerMapModal(false);
   }
@@ -72,20 +68,15 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
 
   const removeRuleHandler = async (rule_file: string, rule_id: string) => {
     try {
-      const res = await RuleApi.deleteRuleEachAgent({
-        rule_file: rule_file,
-        id_rule: rule_id,
-        ServerName: agentData.ServerName,
-        Port: agentData.Port
-      })
-      if (res.status === 200) message.success("Removed rule agent successfully")
-      else message.error("Removed rule agent failed")
+      const res = await RuleApi.deleteRuleCRS({ rule_file, id_rule: rule_id })
+      if (res.status === 200) message.success("Removed rule successfully")
+      else message.error("Removed rule failed")
     } catch (error) {
-      message.error("Removed rule agent failed")
+      message.error("Removed rule failed")
     }
   }
-
   const handleAddToBlacklist = async (remote_address: string) => {
+    // Implement add to blacklist logic here
     try {
       const res = await RuleApi.addIPToBlacklist({ ip_address: remote_address })
       if (res.status === 200) message.success("Added IP to backlist successfully")
@@ -97,10 +88,10 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
   const contextMenuRemoteAddr = (remote_address: string) => (
     <Menu>
       <Menu.Item key="viewLocation" onClick={() => handleViewLocation(remote_address)}>
-        View Location
+        View location
       </Menu.Item>
       <Menu.Item key="addToBlacklist" onClick={() => handleAddToBlacklist(remote_address)}>
-        Add to Blacklist
+        Add to blacklist
       </Menu.Item>
     </Menu>
   );
@@ -115,6 +106,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       </Menu.Item>
     </Menu>
   );
+
 
   const columns: ColumnsType<LogType> = [
     {
@@ -157,9 +149,6 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
       width: "10%",
       align: "left",
       render: (remote_address) => (
-        // <Tooltip title={remote_address}>
-        //   <div className="inline-text remote_address-text" onClick={() => openAttackerMapModalHandler(remote_address)} onContextMenu={(event) => handleContextMenu(event, remote_address)}><u>{remote_address}</u></div>
-        // </Tooltip>
         <Dropdown overlay={contextMenuRemoteAddr(remote_address)} trigger={['contextMenu']}>
           <Tooltip title={remote_address}>
             <div className="inline-text remote_address-text"><u>{remote_address}</u></div>
@@ -231,7 +220,7 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
     <div>
       <Card className="card-container" size="small">
         <Space style={{ justifyContent: "space-between", display: "flex" }}>
-          <CardTitleCustom title="List logs" />
+          <CardTitleCustom title="History Protect" />
           <Button icon={<Excell />}
             style={{ display: 'flex', alignItems: 'center', marginBottom: '4px', padding: "0px 6px" }}
             onClick={handleExport}
@@ -254,10 +243,10 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
         />
       </Card>
       <ViewRuleModal isOpenModal={isOpenRuleCntModal} closeModal={closeRuleCntModalHandler} rule_id={selectedRule.rule_id} rule_file={selectedRule.rule_file} />
-      { selectedRemoteAddr ? <AttackerMap isOpenModal={isOpenAttackerMapModal} closeModal={closeAttackerMapModalHandler} remoteAddr={selectedRemoteAddr}/> 
-       : <></>}
+      {selectedRemoteAddr ? <AttackerMap isOpenModal={isOpenAttackerMapModal} closeModal={closeAttackerMapModalHandler} remoteAddr={selectedRemoteAddr} />
+        : <></>}
     </div>
   );
 };
 
-export default LogsTable;
+export default HistoryProtectTable;

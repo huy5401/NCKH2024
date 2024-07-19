@@ -1,26 +1,15 @@
 import React, { useEffect, useState } from "react";
 import "./style.scss";
 import { useDispatch } from "react-redux";
-import { RULE_MANAGEMENT, USER_MANAGEMENT } from "../../routes/route.constant";
+import { RULE_MANAGEMENT } from "../../routes/route.constant";
 import { setSelectedBreadCrumb } from "../App/store/appSlice";
-import { Form, Input, Select, Space, Steps, Switch, Typography, message } from "antd";
+import { Form, Input, Space, Typography, message } from "antd";
 import ButtonCustom from "../../components/ButtonCustom";
-import { AgentType } from "../../constants/types/agent.type";
-import { agentApi } from "../../apis/agent";
 import { useForm } from "antd/es/form/Form";
 import TextArea from "antd/es/input/TextArea";
-type dataAddRaw = {
-    ServerName: string,
-    IPAgent: string,
-    Protocol: string,
-    AgentPort: number,
-    ServerPort: string,
-    ProxyPreserveHost: boolean,
-    ErrorDocument: string
-}
-
 const AddFileRuleConfig = () => {
     const dispatch = useDispatch();
+    const [dataRuleFileChange, setDataRuleFileChange] = useState("");
     const [form] = useForm();
     useEffect(() => {
         let breadCrumb = [
@@ -35,104 +24,51 @@ const AddFileRuleConfig = () => {
         ]
         dispatch(setSelectedBreadCrumb(breadCrumb))
     }, [RULE_MANAGEMENT])
-    const configAgentItem = <>
-        <Form.Item
-            label="Agent server name"
-            name="ServerName"
-            rules={[{ required: true }]}
-        >
-            <Input placeholder="www.dvwa.com" />
-        </Form.Item>
-        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
-            <Form.Item
-                label="IP Agent"
-                name="IPAgent"
-                rules={[{ required: true }]}
-            >
-                <Input placeholder="192.168.157.139" className="addAgentConfig-input" />
-            </Form.Item>
-            <Form.Item
-                label="Agent Port"
-                name="AgentPort"
-                rules={[{ required: true }]}
-            >
-                <Input placeholder="6565" />
-            </Form.Item>
-        </Space>
-        <Form.Item label="Protocol"
-            rules={[{ required: true }]}
-            name="Protocol"
-        >
-            <Select placeholder="http/https" style={{ width: '49.5%' }}>
-                <Select.Option value="http">http</Select.Option>
-                <Select.Option value="https">https</Select.Option>
-            </Select>
-        </Form.Item>
-    </>
-    const configHostItem = <>
-        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
 
-            <Form.Item label="Proxy preserve host"
-                name="ProxyPreserveHost"
-            >
-                <Switch />
-            </Form.Item>
-            <Form.Item
-                label="Server Port"
-                name="ServerPort"
-                rules={[{ required: true }]}
-            >
-                <Input placeholder="80" />
-            </Form.Item>
-        </Space>
-        <Form.Item
-            label="Error document"
-            name="ErrorDocument"
-            rules={[{ required: true }]}
-        >
-            <Input placeholder="/403.html" />
-        </Form.Item>
-    </>
-    const addAgentHandler = async (value: dataAddRaw) => {
-        const dataAddAgent: AgentType = {
-            Port: value.ServerPort,
-            ServerName: value.ServerName,
-            ProxyPreserveHost: value.ProxyPreserveHost ? "On" : "Off",
-            ProxyPass: `${value.Protocol}://${value.IPAgent}:${value.AgentPort}/`,
-            ProxyPassReverse: `${value.Protocol}://${value.IPAgent}:${value.AgentPort}/`,
-            ErrorDocument: value.ErrorDocument,
-            Protocol: value.Protocol
+    const handleCommandKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === '/' && e.ctrlKey) {
+            e.preventDefault();
+            const textArea = e.target as HTMLTextAreaElement;
+            const selectionStart = textArea.selectionStart || 0;
+            const selectionEnd = textArea.selectionEnd || 0;
+            // Lấy vị trí dấu xuống dòng trước và sau vùng được bôi đen
+            const startLineIndex = dataRuleFileChange.lastIndexOf('\n', selectionStart - 1) + 1;
+            const endLineIndex = dataRuleFileChange.indexOf('\n', selectionEnd);
+
+            // Lấy dòng vừa bôi đen
+            const selectedLines = dataRuleFileChange.substring(startLineIndex, endLineIndex !== -1 ? endLineIndex : undefined);
+            // Thêm dấu "#" vào đầu dòng, kiểm tra nếu đã có dấu '#' thì sẽ bỏ đi
+            const modifiedLines = selectedLines.split('\n').map(line => {
+                if (line.trim().startsWith('#')) return line.replace('#', '')
+                else return '#' + line
+            }).join('\n');
+            const updateddataRuleFileChange = dataRuleFileChange.substring(0, startLineIndex) + modifiedLines + dataRuleFileChange.substring(endLineIndex !== -1 ? endLineIndex : dataRuleFileChange.length);
+            setDataRuleFileChange(updateddataRuleFileChange);
         }
-        try {
-            const res = await agentApi.add(dataAddAgent);
-            if (res.status === 200) {
-                message.success(res.data.message);
-                form.resetFields();
-            }
-            else message.error("Add agent fail")
-        } catch (error) {
-            message.error("Add agent fail")
-        }
+    }
+    const handleChangeRuleFile = (e: any) => {
+        console.log(e.target.value);
+        setDataRuleFileChange(e.target.value);
     }
     return (
         <div className="container-wrapper">
-            <Typography className="addAgent-title" style={{ marginBottom: '10px', fontSize: '1.5rem' }}>Create file rule config</Typography>
-            <Form layout="vertical" onFinish={addAgentHandler} form={form}>
+            <Typography className="addFileRule-title" style={{ marginBottom: '10px', fontSize: '1.5rem' }}>Create file rule config</Typography>
+            <Form form={form} layout="vertical" className="add-fileRule-form">
                 <Form.Item
                     label="File name"
                     name="file_name"
                     rules={[{ required: true }]}
                 >
-                    <Input placeholder="quandoanx.config" />
+                    <Input placeholder="quandoanx.conf" />
                 </Form.Item>
                 <Form.Item
-                    label="Content File"
-                    name="content_file"
+                    label="File content"
+                    name="rules"
                     rules={[{ required: true }]}
                 >
-                    <TextArea rows={10} />
+                    <TextArea rows={18} value={dataRuleFileChange} onChange={handleChangeRuleFile} onKeyUp={handleCommandKey} />
                 </Form.Item>
-                <Space style={{ justifyContent: "end", width: "100%" }}>
+                <Space style={{ justifyContent: "end", width: "100%", padding: "10px 0" }}>
                     <ButtonCustom
                         label="Create"
                         bgColor="#2862AF"

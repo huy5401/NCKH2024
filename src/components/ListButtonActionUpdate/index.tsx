@@ -1,7 +1,7 @@
 import { Button, Popconfirm, Space, Tooltip } from "antd";
 import React, { useState } from "react";
 import Icons from "../../assets/icons";
-import { TrashRedSVG, EditSVG, EyeSVG, BlueEyeSVG, GreenEyeSVG } from "../../assets/images";
+import { TrashRedSVG, EditSVG, EyeSVG, BlueEyeSVG, GreenEyeSVG, RestoreSVG } from "../../assets/images";
 import { EyeOutlined } from "@ant-design/icons";
 
 type Props = {
@@ -15,6 +15,7 @@ type Props = {
   disable?: any;
   downloading?: boolean;
   downloadTooltip?: string;
+  retoreFunction?:any
 };
 
 const ListButtonActionUpdate: React.FC<Props> = ({
@@ -28,10 +29,12 @@ const ListButtonActionUpdate: React.FC<Props> = ({
   downloading,
   disable = false,
   downloadTooltip,
+  retoreFunction
 }) => {
   const [openPopconfirm, setOpenPopconfirm] = useState({
     confirmSubtract: false,
     confirmRemove: false,
+    confirmRestore: false
   });
 
   return (
@@ -52,6 +55,28 @@ const ListButtonActionUpdate: React.FC<Props> = ({
             size="small"
             onClick={() =>
               setOpenPopconfirm({ ...openPopconfirm, confirmRemove: true })
+            }
+            type="text"
+            disabled={disable}
+          />
+        </Popconfirm>
+      ) : null}
+      {retoreFunction ? (
+        <Popconfirm
+          // className="danger-confirm"
+          title="You want to restore?"
+          onConfirm={() => {
+            retoreFunction();
+            setOpenPopconfirm({ ...openPopconfirm, confirmRestore: false });
+          }}
+          disabled={disable}
+        >
+          <Button
+            icon={<RestoreSVG />}
+            danger
+            size="small"
+            onClick={() =>
+              setOpenPopconfirm({ ...openPopconfirm, confirmRestore: true })
             }
             type="text"
             disabled={disable}
@@ -99,6 +124,7 @@ const ListButtonActionUpdate: React.FC<Props> = ({
           />
         </Popconfirm>
       ) : null}
+      
       {viewFunction ? (
         <Button
           type="text"

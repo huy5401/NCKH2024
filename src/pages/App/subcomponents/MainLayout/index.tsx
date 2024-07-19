@@ -27,7 +27,7 @@ const MainLayout = () => {
     <>
       <Layout className="layout-container">
         <HeaderLayout />
-        <Layout>
+        <Layout className="layout-content">
           <Sider width={240} className="mobileHidden sider-container">
             <SideBar />
           </Sider>

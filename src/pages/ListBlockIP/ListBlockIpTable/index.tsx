@@ -11,6 +11,7 @@ import { AgentType, FilterAgentType } from "../../../constants/types/agent.type"
 import { useAgent } from "../../../utils/request";
 import { agentApi } from "../../../apis/agent";
 import { RuleApi } from "../../../apis/rule";
+import { useGetBlackList } from "../../../utils/request/useGetBlackList";
 
 
 type Props = {
@@ -18,50 +19,27 @@ type Props = {
   setFilter: (filter: FilterAgentType) => void;
 };
 const ListBlockIPTable: FC<Props> = ({ filter }) => {
-  const navigate = useNavigate();
   const [params, setParams] = useState<CommonGetAllParams>({
     number: 10,
     page: 1,
   });
-  const [isOpenEditModal, setIsOpenEditModal] = useState<boolean>(false);
-  const [selectedAgent, setSelectedAgent] = useState<AgentType>({});
 
+  const { data, isLoading, error, mutate } = useGetBlackList(params);
 
-  const { data, isLoading, error, mutate } = useAgent(params, filter);
-
-  const openEditModalHandler = (record: AgentType) => {
-    setIsOpenEditModal(true);
-    setSelectedAgent(record);
-  }
-
-  const closeEditModalHandler = () => {
-    setIsOpenEditModal(false);
-  }
-  const handleChangeRuleEngine = async (e:any, ServerName?:string) => {
+  const removeFromBlackListHandler = async (ipAddr?: string) => {
     try {
-        const res = await RuleApi.updateModeAgent({ServerName: ServerName, mode: e});
-        if(res.status === 200){
-            message.success(res.data.message);
-            mutate();
-        }else message.error("Update mode agent fail");
-    } catch (error) {
-      message.error("Update mode agent fail");
-    }
-  }
-  const removeAgentHandler = async (idAgent?: number) => {
-    try {
-      const res = await agentApi.delete(idAgent);
+      const res = await RuleApi.deleteIPFromBlacklist({ip_address:ipAddr});
       if (res.status === 200){
-        message.success(res.data.message);
+        message.success("Deleled ip from blacklist successfully");
         mutate();
       }
-      else message.error("Delete agent fail");
+      else message.error("Deleted ip from blacklist failed");
     } catch (error) {
-      message.error("Delete agent fail");
+      message.error("Deleted ip from blacklist failed");
     }
   }
 
-  const columns: ColumnsType<AgentType> = [
+  const columns: ColumnsType<any> = [
     {
       key: 1,
       title: "Index",
@@ -74,7 +52,7 @@ const ListBlockIPTable: FC<Props> = ({ filter }) => {
     {
       key: 2,
       title: "IP Address",
-      dataIndex: "ipaddr",
+      // dataIndex: "ipaddr",
       align: "center",
       render: (ipaddr) => (
         <Tooltip title={ipaddr}>
@@ -87,12 +65,10 @@ const ListBlockIPTable: FC<Props> = ({ filter }) => {
       title: "Action",
       align: "center",
       width: "10%",
-      render: (_, record) => (
+      render: (text, record) => (
         <>
           <ListButtonActionUpdate
-            editFunction={() => openEditModalHandler(record)}
-            viewFunction={() => navigate(`/user-management-details/${record.id}`, { state: { agentDetails: record } })}
-            removeFunction={() => removeAgentHandler(record.id)}
+            removeFunction={() => removeFromBlackListHandler(text)}
           />
         </>
       ),
