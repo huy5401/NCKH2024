@@ -9,7 +9,7 @@ type Props = {
 }
 
 const Logs:FC<Props> = ({agentData}) => {
-  const [filter, setFilter]= useState<FilterLogType>({time: 48})
+  const [filter, setFilter]= useState<FilterLogType>({time: 24})
   return (
     <>
       <div style={{ marginBottom: '12px' }}>

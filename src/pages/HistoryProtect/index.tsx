@@ -7,7 +7,7 @@ import HistoryProtectFilter from "./HistoryProtectFilter";
 import HistoryProtectTable from "./HistoryProtectTable";
 
 const ListBlockIP = () => {
-  const [filter, setFilter]= useState<any>({})  
+  const [filter, setFilter]= useState<any>({time: 24})  
   const dispatch = useDispatch();
   useEffect(() => {
     let breadCrumb = [

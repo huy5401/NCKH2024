@@ -48,7 +48,7 @@ const LogsFilter: React.FC<Props> = ({ filters, setFilters }) => {
                 style={{ width: "120px" }}
                 value={filterData.time}
                 onChange={(e) => setFilterData({ ...filterData,time: e })}
-                defaultValue={24}
+                defaultValue={filterData.time}
               >
                 <Select.Option value={12}>12 hours</Select.Option>
                 <Select.Option value={24}>24 hours</Select.Option>

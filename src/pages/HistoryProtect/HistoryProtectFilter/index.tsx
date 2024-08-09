@@ -20,8 +20,7 @@ type Props = {
 
 
 const HistoryProtectFilter: React.FC<Props> = ({ filters, setFilters }) => {
-  const [filterData, setFilterData] = useState<FilterLogType>({});
-
+  const [filterData, setFilterData] = useState<FilterLogType>({}); 
   useEffect(() => {
     if (filters) {
       setFilterData({ ...filterData, ...filters })
@@ -47,8 +46,8 @@ const HistoryProtectFilter: React.FC<Props> = ({ filters, setFilters }) => {
               <Select placeholder="hours" allowClear
                 style={{ width: "120px" }}
                 value={filterData.time}
+                defaultValue={filterData.time}
                 onChange={(e) => setFilterData({ ...filterData,time: e })}
-                defaultValue={24}
               >
                 <Select.Option value={12}>12 hours</Select.Option>
                 <Select.Option value={24}>24 hours</Select.Option>

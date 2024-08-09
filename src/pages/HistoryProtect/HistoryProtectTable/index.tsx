@@ -121,12 +121,12 @@ const HistoryProtectTable: FC<Props> = ({ filter }) => {
     {
       key: 2,
       title: "Time",
-      dataIndex: "time",
+      dataIndex: "event_time",
       align: "left",
       width: "15%",
-      render: (time) => (
-        <Tooltip title={time}>
-          <div className="inline-text">{dayjs(time).format('ddd MMM D YYYY HH:mm:ss')}</div>
+      render: (event_time) => (
+        <Tooltip title={event_time}>
+          <div className="inline-text">{dayjs(event_time).format('ddd MMM D YYYY HH:mm:ss')}</div>
         </Tooltip>
       ),
     },
