@@ -14,7 +14,7 @@ const DashboardGeneralItem: FC<Props> = ({ title, value, icon }) => {
       <Space className="db-generalItem-wrapper">
         <Space direction="vertical">
           <CardTitleCustom title={title} />
-          <Typography>{value}</Typography>
+          <Typography className="db-textValue">{value}</Typography>
         </Space>
         <Space className="db-gnIcon-wrapper">
           {icon}

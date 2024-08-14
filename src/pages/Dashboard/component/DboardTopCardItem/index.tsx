@@ -14,7 +14,7 @@ const DboardTopCardItem: FC<Props> = ({ title, value, icon }) => {
       <Space direction="vertical">
         <CardTitleCustom title={title} />
         {value.map((item, index) => (
-          <Typography key={index}>{item}</Typography>
+          <Typography key={index} className="dbTopCard-TextValue">{item}</Typography>
         ))}
       </Space>
         <Space className="db-topCardIcon-wrapper">

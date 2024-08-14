@@ -64,7 +64,6 @@ function UserMnDashboardChart() {
     return (
         <Space className='chart-wrapper'>
             <div className='chart-item'>
-
                 <Typography className='chart-title'>Top 5 rule IDs</Typography>
                 <Pie
                     data={dataPieChart}

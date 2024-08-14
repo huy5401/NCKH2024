@@ -1,13 +1,19 @@
 .db-generalItem-wrapper {
-    width: 250px;
+    width: 300px;
+    min-height: 135px;
     justify-content: space-between !important;
     display: flex;
-    align-items: center;
+    align-items: baseline;
     border-radius: 8px;
     background-color: white;
     padding: 8px;
     box-shadow: 2px 2px 4px rgba(128,128,128,0.4);
     margin-bottom: 10px;
+    .db-textValue{
+        font-size: 32px !important;
+        padding-left: 10px;
+        font-weight: 600;
+    }
     .db-gnIcon-wrapper{
         width: 30px;
         height: 30px;
