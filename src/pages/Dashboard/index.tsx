@@ -11,6 +11,7 @@ import { useAgent, useLog, useTopRuleHit } from "../../utils/request";
 import { statisticApi } from "../../apis/statistic";
 import { CommonGetAllParams } from "../../constants/types/common.type";
 import LevelRequestStatisticTable from "./component/LevelRequestStatisticTable";
+import StoragePerformance from "../../components/StoragePerformance";
 const Dashboard = () => {
   const dispatch = useDispatch();
   //const {data:dataTopRule, isLoading, error, mutate} = useTopRuleHit();
@@ -65,14 +66,16 @@ const Dashboard = () => {
         <Space direction="horizontal" className="dasboard-gn-wrapper">
           <DashboardGeneralItem title="Number of service" value={data?.data?.length || 0} icon={<Icons.bell />} />
           <DashboardGeneralItem title="Number of prevent" value={numOfPrevent24} icon={<Icons.file />} />
+          <DboardTopCardItem title="Top vulnerabilities" value={['XSS', 'SQL Injection', 'File Upload']} icon={<Icons.file />} />
+          <DboardTopCardItem title="Top rules" value={dataTopRule?.map((item: any) => item.rule_id).slice(-3)} icon={<Icons.camera />} />
         </Space>
+        <StoragePerformance/>
         <div style={{ width: "100%", marginBottom: "10px" }}>
           <LevelRequestStatisticTable />
         </div>
         <DashboardChart />
         <Space direction="horizontal" className="dasboard-gn-wrapper" style={{ marginTop: 10 }}>
-          <DboardTopCardItem title="Top vulnerabilities" value={['XSS', 'SQL Injection', 'File Upload']} icon={<Icons.file />} />
-          <DboardTopCardItem title="Top rules" value={dataTopRule?.map((item: any) => item.rule_id).slice(-3)} icon={<Icons.camera />} />
+          
         </Space>
       </Spin>
     </div>

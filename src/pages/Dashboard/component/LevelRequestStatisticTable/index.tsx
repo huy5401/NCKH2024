@@ -116,7 +116,7 @@ const LevelRequestStatisticTable = () => {
         mutate={mutate}
       /> */}
       <Card className="card-container" size="small">
-        {/* <CardTitleCustom title="List targets" /> */}
+        <CardTitleCustom title="Statistical table of attack levels" />
         <TableCustom
           dataSource={data}
           columns={columns}

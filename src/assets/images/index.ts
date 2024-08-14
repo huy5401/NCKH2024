@@ -73,7 +73,8 @@ import { ReactComponent as TrashRedSVG } from "../../assets/images/svg/TrashRedS
 import { ReactComponent as AccountManageSVG } from "../../assets/images/svg/AccountManageSVG.svg";
 import { ReactComponent as PersonalInforSVG } from "../../assets/images/svg/PersonalInforSVG.svg";
 import { ReactComponent as Excell } from "../../assets/images/svg/Excell.svg";
-
+import { ReactComponent as RamSVG } from "../../assets/images/svg/ram.svg";
+import { ReactComponent as CpuSVG } from "../../assets/images/svg/cpu.svg";
 export {
   Excell,
   AccountTabSVG,
@@ -150,4 +151,6 @@ export {
   TrashRedSVG,
   AccountManageSVG,
   PersonalInforSVG,
+  RamSVG,
+  CpuSVG
 };
