@@ -5,6 +5,7 @@ import { RULE_MANAGEMENT } from "../../routes/route.constant";
 import { setSelectedBreadCrumb } from "../App/store/appSlice";
 import ListBlockIPFilter from "./ListBlockIPFilter";
 import ListBlockIPTable from "./ListBlockIpTable";
+import ListBlockCountries from "./ListBlockCountries";
 
 const ListBlockIP = () => {
   const [filter, setFilter]= useState<any>({})  
@@ -24,6 +25,7 @@ const ListBlockIP = () => {
         <ListBlockIPFilter filters={filter} setFilters={setFilter}/>
       </div>
        <ListBlockIPTable filter={filter} setFilter={setFilter}/>
+       <ListBlockCountries/>
     </div>
   );
 };

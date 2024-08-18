@@ -13,6 +13,7 @@ import ButtonCustom from "../../../components/ButtonCustom";
 import { FilterAgentType } from "../../../constants/types/agent.type";
 import { useNavigate } from "react-router-dom";
 import { ADD_AGENT } from "../../../routes/route.constant";
+import AddIPModal from "../AddIPModal";
 
 type Props = {
   filters: FilterAgentType;
@@ -22,7 +23,13 @@ type Props = {
 
 const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters }) => {
   const [filterData, setFilterData] = useState<FilterAgentType>({});
-  const navigate = useNavigate();
+  const [isOpenAddIPModal, setIsOpenAddIPModal] = useState<boolean>(false);
+  const openEditModalHandler = () => {
+    setIsOpenAddIPModal(true);
+  }
+  const closeAddIPModalHandler = () => {
+    setIsOpenAddIPModal(false);
+  }
   useEffect(() => {
     if (filters) {
       setFilterData({ ...filterData, ...filters })
@@ -33,7 +40,7 @@ const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters }) => {
 
 
   return (
-    <Space style={{justifyContent: "space-between", display:"flex"}}>
+    <Space style={{ justifyContent: "space-between", display: "flex" }}>
       <Form className="userManager-FilterForm">
         <Space direction="horizontal" style={{ width: '100%' }}>
           <Input placeholder="Search..."
@@ -48,6 +55,13 @@ const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters }) => {
           />
         </Space>
       </Form>
+      <ButtonCustom
+        label="Add IP"
+        bgColor="#2862AF"
+        type="primary"
+        onClick={openEditModalHandler}
+      />
+      <AddIPModal isOpenModal={isOpenAddIPModal} closeModal={closeAddIPModalHandler}/>
     </Space>
   );
 };
