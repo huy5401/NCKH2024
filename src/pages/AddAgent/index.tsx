@@ -22,9 +22,9 @@ const AddAgent = () => {
     const dispatch = useDispatch();
     const [form] = useForm();
     useEffect(() => {
-        let breadCrumb = [
+        let breadCrumb = [ 
             {
-                label: "User management",
+                label: "Website management",
                 path: USER_MANAGEMENT
             },
             {
@@ -36,7 +36,7 @@ const AddAgent = () => {
     }, [USER_MANAGEMENT])
     const configAgentItem = <>
         <Form.Item
-            label="Agent server name"
+            label="Website server name"
             name="ServerName"
             rules={[{ required: true }]}
         >
@@ -44,14 +44,14 @@ const AddAgent = () => {
         </Form.Item>
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
             <Form.Item
-                label="IP Agent"
+                label="IP Website"
                 name="IPAgent"
                 rules={[{ required: true }]}
             >
                 <Input placeholder="192.168.157.139" className="addAgentConfig-input" />
             </Form.Item>
             <Form.Item
-                label="Agent Port"
+                label="Website Port"
                 name="AgentPort"
                 rules={[{ required: true }]}
             >
@@ -108,14 +108,14 @@ const AddAgent = () => {
                 message.success(res.data.message);
                 form.resetFields();
             }
-            else message.error("Add agent fail")
+            else message.error("Add website fail")
         } catch (error) {
-            message.error("Add agent fail")
+            message.error("Add website fail")
         }
     }
     return (
         <div className="container-wrapper">
-            <Typography className="addAgent-title" style={{marginBottom: '10px', fontSize: '1.5rem'}}>Add Agent</Typography>
+            <Typography className="addAgent-title" style={{marginBottom: '10px', fontSize: '1.5rem'}}>Add Website</Typography>
             <Form layout="vertical" onFinish={addAgentHandler} form={form}>
                 <Steps
                     direction="vertical"
@@ -123,7 +123,7 @@ const AddAgent = () => {
                     className="Steps-addAgent"
                     items={[
                         {
-                            title: 'Configuration agent',
+                            title: 'Configuration website',
                             status: 'process',
                             description: configAgentItem
                         },

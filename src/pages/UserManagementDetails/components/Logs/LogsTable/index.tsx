@@ -78,10 +78,10 @@ const LogsTable: FC<Props> = ({ agentData, filter }) => {
         ServerName: agentData.ServerName,
         Port: agentData.Port
       })
-      if (res.status === 200) message.success("Removed rule agent successfully")
-      else message.error("Removed rule agent failed")
+      if (res.status === 200) message.success("Removed rule website successfully")
+      else message.error("Removed rule website failed")
     } catch (error) {
-      message.error("Removed rule agent failed")
+      message.error("Removed rule website failed")
     }
   }
 

@@ -40,7 +40,6 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
         } as AgentType,
         onSubmit: async (data: AgentType) => {
             try {
-                console.log("data update: ", data);
                 const dataUpdate = {
                     id: data.id,
                     ProxyPreserveHost: data.ProxyPreserveHost,
@@ -70,7 +69,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
     }, [agent])
     const configAgentItem = <>
         <Form.Item
-            label="Agent server name"
+            label="Website server name"
             rules={[{ required: true }]}
         >
             <Input placeholder="www.dvwa.com"
@@ -80,7 +79,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
         </Form.Item>
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
             <Form.Item
-                label="IP Agent"
+                label="IP Website"
                 rules={[{ required: true }]}
             >
                 <Input placeholder="192.168.157.139"
@@ -96,7 +95,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                 />
             </Form.Item>
             <Form.Item
-                label="Agent Port"
+                label="Website Port"
                 rules={[{ required: true }]}
             >
                 <Input placeholder="6565"
@@ -176,7 +175,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
             style={{ display: "flex", justifyContent: "center" }}
             className="modalEditAgent-wrapper"
         >
-            <Typography className="addAgent-title">Edit Agent</Typography>
+            <Typography className="addAgent-title">Edit Website</Typography>
             <Form layout="vertical">
                 <Steps
                     direction="horizontal"
@@ -184,7 +183,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                     className="Steps-addAgent"
                     items={[
                         {
-                            title: 'Configuration agent',
+                            title: 'Configuration website',
                             status: 'process',
                             description: configAgentItem
                         },

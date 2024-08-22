@@ -12,7 +12,7 @@ const UserManagement = () => {
   useEffect(() => {
     let breadCrumb = [
        {
-        label: "User management",
+        label: "Website management",
         path: ""
        }
     ]

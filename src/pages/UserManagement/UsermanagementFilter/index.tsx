@@ -49,7 +49,7 @@ const UserManagementFilter: React.FC<Props> = ({ filters, setFilters }) => {
         </Space>
       </Form>
       <ButtonCustom
-        label="Add agent"
+        label="Add Website"
         bgColor="#2862AF"
         type="primary"
         onClick={() => {navigate(ADD_AGENT)}}
