@@ -17,7 +17,7 @@ const UserManagementDetail = () => {
   useEffect(() => {
     let breadCrumb = [
       {
-        label: "User managerment",
+        label: "Website managerment",
         path: USER_MANAGEMENT
       },
       {
@@ -37,10 +37,10 @@ const UserManagementDetail = () => {
       const res = await agentApi.getById(id);
       if (res.status === 200) {
         setAgentData(res.data);
-      } else message.error("Get agent details fail");
+      } else message.error("Get website details failed");
       setIsLoading(false);
     } catch (error) {
-      message.error("Get agent details fail");
+      message.error("Get website details failed");
       setIsLoading(false);
     }
 

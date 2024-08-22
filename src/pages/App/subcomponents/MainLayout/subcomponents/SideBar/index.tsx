@@ -42,7 +42,7 @@ const items: MenuItem[] = [
   //   getItem('Option 3', '3'),
   //   getItem('Option 4', '4'),
   // ]),
-  getItem(<Link to={USER_MANAGEMENT}>Agent Management</Link>, '2', <ApartmentOutlined />),
+  getItem(<Link to={USER_MANAGEMENT}>Website Management</Link>, '2', <ApartmentOutlined />),
   getItem(<Link to={HISTORY_PROTECT}>History Protect</Link>, '3', <FileDoneOutlined />),
   getItem(<Link to={RULE_MANAGEMENT}>Rule Management</Link>, '4', <LockFilled />),
   getItem(<Link to={LIST_BLOCK_IP}>List Blocked IP</Link>, '5', <FileTextOutlined />),

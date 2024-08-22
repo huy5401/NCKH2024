@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useState } from "react";
 import DashboardChart from "./component/DashboardChart";
 import './style.scss'
-import { useDispatch } from "react-redux";
 import { Space, message } from "antd";
 import Icons from "../../../../assets/icons";
 import DashboardGeneralItem from "../../../Dashboard/component/DashboardGeneralItem";

@@ -45,9 +45,9 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
         if(res.status === 200){
             message.success(res.data.message);
             mutate();
-        }else message.error("Update mode agent fail");
+        }else message.error("Update mode website fail");
     } catch (error) {
-      message.error("Update mode agent fail");
+      message.error("Update mode website fail");
     }
   }
   const removeAgentHandler = async (idAgent?: number) => {
@@ -57,9 +57,9 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
         message.success(res.data.message);
         mutate();
       }
-      else message.error("Delete agent fail");
+      else message.error("Delete website fail");
     } catch (error) {
-      message.error("Delete agent fail");
+      message.error("Delete website fail");
     }
   }
 
@@ -75,7 +75,7 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
     },
     {
       key: 2,
-      title: "Agent name",
+      title: "Website",
       dataIndex: "ServerName",
       align: "center",
       render: (servername) => (
@@ -181,7 +181,7 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
         mutate={mutate}
       />
       <Card className="card-container" size="small">
-        <CardTitleCustom title="List targets" />
+        <CardTitleCustom title="List websites" />
         <TableCustom
           dataSource={data?.data}
           columns={columns}
