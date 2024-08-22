@@ -92,4 +92,16 @@ export const RuleApi = {
             method: 'GET',
         })
     },
+    addGeoBlockedIP: (data?: string[]) => {
+        return WAFAxiosClient('/rule/add_Geo-BlockIP',{
+            method: 'POST',
+            data
+        })
+    },
+    removeGeoBlockedIP: (data?: string[]) => {
+        return WAFAxiosClient('/rule/remove_Geo-BlockIP',{
+            method: 'DELETE',
+            data
+        })
+    }
 }
