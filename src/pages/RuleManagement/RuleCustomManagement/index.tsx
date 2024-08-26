@@ -6,7 +6,7 @@ import RuleManagementFilter from "./RuleManagementFilter";
 const RuleCustomManagement = () => {
   const [filter, setFilter]= useState<any>({})    
   return (
-    <div className="container-wrapper">
+    <div>
       <div style={{marginBottom: "12px"}}>
         <RuleManagementFilter filters={filter} setFilters={setFilter}/>
       </div>

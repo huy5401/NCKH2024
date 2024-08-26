@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [dataTopRule, setDataTopRule] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [numOfPrevent24, setNumOfPrevent24] = useState<number>(0);
+  const [numOfRequests24, setNumOfRequests24] = useState<number>(0);
 
   const fetcher = async () => {
     setIsLoading(true);
@@ -46,9 +47,19 @@ const Dashboard = () => {
       message.error("Get number of detected within 24h fail")
     }
   }
+  const fetchNumbOfRequest24 = async () => {
+    try {
+      const res = await statisticApi.getNumOfRequests();
+      if (res.status === 200) setNumOfRequests24(res.data)
+      else message.error("Get number of requests within 24h fail")
+    } catch (error) {
+      message.error("Get number of requests within 24h fail")
+    }
+  }
   useEffect(() => {
     fetcher();
     fetchNumbOfPrevent24();
+    fetchNumbOfRequest24();
   }, [])
   useEffect(() => {
     let breadCrumb = [
@@ -65,8 +76,8 @@ const Dashboard = () => {
       <Spin spinning={isLoading}>
         <Space direction="horizontal" className="dasboard-gn-wrapper">
           <DashboardGeneralItem title="Number of service" value={data?.data?.length || 0} icon={<Icons.bell />} />
-          <DashboardGeneralItem title="Number of prevent" value={numOfPrevent24} icon={<Icons.file />} />
-          <DboardTopCardItem title="Top vulnerabilities" value={['XSS', 'SQL Injection', 'File Upload']} icon={<Icons.file />} />
+          <DashboardGeneralItem title="Number of requests" value={numOfRequests24} icon={<Icons.file />} />
+          <DashboardGeneralItem title="Number of detections" value={numOfPrevent24} icon={<Icons.file />} />
           <DboardTopCardItem title="Top rules" value={dataTopRule?.map((item: any) => item.rule_id).slice(-3)} icon={<Icons.camera />} />
         </Space>
         <StoragePerformance/>

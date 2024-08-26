@@ -25,7 +25,7 @@ const RuleManagement = () => {
     children: <CRSManagement />,
   },
   {
-    label: "Rule Custome Management",
+    label: "Rule Custom Management",
     key: "ruleCusMng",
     children: <RuleCustomManagement />,
   },]

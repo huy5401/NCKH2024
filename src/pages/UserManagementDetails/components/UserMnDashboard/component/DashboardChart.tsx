@@ -12,9 +12,7 @@ function UserMnDashboardChart() {
     const [dataRawLineChart, setDataRawLineChart] = useState([]);
     const fetcherDataLine = async () => {
         try {
-            const res = await statisticApi.getNumOfPrevent24hById(Number(id));
-            console.log(res);
-            
+            const res = await statisticApi.getNumOfPrevent24hById(Number(id));            
             if(res.status === 200) setDataRawLineChart(res.data)
             else message.error("Data number of prevent get error")
         } catch (error) {
@@ -29,11 +27,11 @@ function UserMnDashboardChart() {
         datasets: [
             {
                 data: [8, 6, 9,10, 7],
-                backgroundColor: ['rgba(255, 99, 132, 0.6)',
-                    'rgba(54, 162, 235, 0.6)',
+                backgroundColor: ['#0da9a0',
+                    '#d74042',
                     'rgba(255, 205, 86, 0.6)',
                     'rgba(255, 99, 134, 0.6)',
-                    'rgba(250, 90, 134, 0.6)']
+                    '#3813cc']
             }
         ],
 
@@ -52,13 +50,19 @@ function UserMnDashboardChart() {
             }
         ]
     }
-    const optionsLine: ChartOptions = {
+    const optionsLine: ChartOptions<'line'> = {
         responsive: true,
         plugins: {
             legend: {
                 display: false
             },
-        }
+        },
+        scales: {
+            y: {
+                beginAtZero: true, // Ensures that the y-axis starts at 0
+                min: 0,
+            },
+        },
     }
 
     return (

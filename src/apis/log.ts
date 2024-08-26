@@ -18,5 +18,5 @@ export const LogsApi = {
     return WAFAxiosClient(`/log/get_Attacks_Map`, {
       method: 'GET'
     })
-  }
+  },
 };
