@@ -6,7 +6,7 @@ import RemovedRuleFilter from "./RemovedRuleFilter";
 const CRSManagement = () => {
   const [filter, setFilter]= useState<any>({})    
   return (
-    <div className="container-wrapper">
+    <div>
       <div style={{marginBottom: "12px"}}>
         <RemovedRuleFilter filters={filter} setFilters={setFilter}/>
       </div>
