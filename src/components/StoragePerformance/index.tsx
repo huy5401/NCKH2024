@@ -10,25 +10,6 @@ import { usePerformance } from '../../utils/request/usePerfomance';
 ChartJS.register(ArcElement, Tooltip, LineElement, PointElement, LinearScale, CategoryScale, BarElement)
 const StoragePerformance = () => {
   const {data, isLoading, error, mutate} = usePerformance();
-
-  // const data = {
-  //   cpu: {
-  //     usage_percent: 0.5,
-  //     core: 4
-  //   },
-  //   ram: {
-  //     total: 4097036288,
-  //     used: 1516720128,
-  //     free: 1357422592,
-  //     percent: 43.4
-  //   },
-  //   storage: {
-  //     total: 84053143552,
-  //     used: 33530216448,
-  //     free: 46206205952,
-  //     percent: 42.1
-  //   }
-  // }
   const options = {
     plugins: {
       legend: {
@@ -61,7 +42,7 @@ const StoragePerformance = () => {
 
   return (
     <div style={{ display: "flex", height: "220px", marginBottom: "8px" }}>
-      <div style={{ width: "300px", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px' }}>
+      <div style={{ width: "24.5%", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px' }}>
         <div style={{ fontSize: "22px", fontWeight: "600" }}>RAM</div>
         <RamSVG />
         <div style={{ paddingLeft: "10px" }}>
@@ -69,7 +50,7 @@ const StoragePerformance = () => {
           <div style={{ display: "flex", fontSize: "22px", fontWeight: "600" }}><div>Free: </div><div style={{ marginLeft: "5px", color: "#1a6de3" }}>{100 - data?.ram.percent}%</div></div>
         </div>
       </div>
-      <div style={{ width: "300px", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px', marginLeft: "10px" }}>
+      <div style={{ width: "24.5%", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px', marginLeft: "10px" }}>
         <div style={{ fontSize: "22px", fontWeight: "600" }}>CPU</div>
         <CpuSVG />
         <div style={{ paddingLeft: "10px" }}>
@@ -77,7 +58,7 @@ const StoragePerformance = () => {
           <div style={{ display: "flex", fontSize: "22px", fontWeight: "600" }}><div>Core: </div><div style={{ marginLeft: "5px", color: "#1a6de3" }}>{data?.cpu.core}</div></div>
         </div>
       </div>
-      <div style={{ width: "300px", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px', marginLeft: "10px" }}>
+      <div style={{ width: "24.5%", backgroundColor: "#FFF", padding: "8px", borderRadius: '8px', marginLeft: "10px" }}>
         <div style={{fontSize: "22px", fontWeight: "600", marginBottom: "8px" }}>STORAGE</div>
         <Doughnut
           data={dataPieChart}

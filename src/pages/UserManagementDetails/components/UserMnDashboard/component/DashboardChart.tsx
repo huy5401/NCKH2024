@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, ChartOptions, LineElement, ChartData, PointElement, LinearScale, CategoryScale, ChartDataset, BarElement } from 'chart.js';
-import { Bar, Line, Pie } from 'react-chartjs-2';
+import { Line, Pie } from 'react-chartjs-2';
 import { Space, Typography, message } from 'antd';
 import './style.scss'
 import { statisticApi } from '../../../../../apis/statistic';
@@ -10,6 +10,7 @@ ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearS
 function UserMnDashboardChart() {
     const {id} = useParams();
     const [dataRawLineChart, setDataRawLineChart] = useState([]);
+    const [dataTop5RuleHit, setDataTop5RuleHit] = useState([]);
     const fetcherDataLine = async () => {
         try {
             const res = await statisticApi.getNumOfPrevent24hById(Number(id));            
@@ -19,14 +20,25 @@ function UserMnDashboardChart() {
             message.error("Data number of prevent get error");
         }
     }
+    const fetchDataTop5RulesHit = async () => {
+        try {
+            const res = await statisticApi.getTopRuleHit();
+            if (res.status === 200) setDataTop5RuleHit(res.data.slice(0, 5))
+            else message.error("Get data top 5 rules failed");
+        } catch (error) {
+            message.error("Get data top 5 rules failed");
+        }
+    }
+
     useEffect(() => {
         fetcherDataLine();
+        fetchDataTop5RulesHit();
     },[])
     const dataPieChart = {
-        labels: ['90182', '90172', '90376', '90847', '90843'],
+        labels: dataTop5RuleHit?.map((item: any) => item.rule_id),
         datasets: [
             {
-                data: [8, 6, 9,10, 7],
+                data: dataTop5RuleHit?.map((item: any) => item.count),
                 backgroundColor: ['#0da9a0',
                     '#d74042',
                     'rgba(255, 205, 86, 0.6)',
@@ -34,7 +46,6 @@ function UserMnDashboardChart() {
                     '#3813cc']
             }
         ],
-
     }
     const dataLineChart: any = {
         labels: dataRawLineChart?.map((item: any) => item.time),
@@ -59,7 +70,7 @@ function UserMnDashboardChart() {
         },
         scales: {
             y: {
-                beginAtZero: true, // Ensures that the y-axis starts at 0
+                beginAtZero: true,
                 min: 0,
             },
         },

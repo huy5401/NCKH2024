@@ -102,7 +102,7 @@ function DashboardChart() {
         },
         scales: {
             y: {
-                beginAtZero: true, // Ensures that the y-axis starts at 0
+                beginAtZero: true,
                 min: 0,
             },
         },

@@ -54,4 +54,9 @@ export const statisticApi = {
       method: 'GET'
     })
   },
+  getTop10Attacks: () => {
+    return WAFAxiosClient(`/log/graph_TOP10_Attacks_intercepted`, {
+      method: 'GET'
+    })
+  },
 };
