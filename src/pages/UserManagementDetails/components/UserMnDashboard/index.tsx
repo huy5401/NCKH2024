@@ -16,7 +16,8 @@ const UserMnDashboard:FC<Props> = ({agentData}) => {
   const {id} = useParams();
   const [numOfPrevent24, setNumOfPrevent24] = useState<number>(0);
   const [numOfRequests24, setNumOfRequests24] = useState<number>(0);
-  const [dataTopIP, setDataTopIP] = useState([]);
+  const [top10Attacks, setTop10Attacks] = useState<any>([]);
+
   const fetchNumbOfPrevent24 = async () => {
     try {
       const res = await statisticApi.getNumOfDetected24ById(Number(id));
@@ -26,15 +27,16 @@ const UserMnDashboard:FC<Props> = ({agentData}) => {
       message.error("Get number of detected within 24h failed")
     }
   }
-  const fetchTopRule = async () => {
+  const fetchTop10Attacks = async () => {
     try {
-      const res = await statisticApi.getTopRuleHit();
-      if (res.status === 200) {
-      } else message.error("Error get top ip");
+      const res = await statisticApi.getTop10Attacks();
+      if (res.status === 200) setTop10Attacks(res.data.slice(0,3));
+      else message.error("Get top 3 vulnabilities failed");
     } catch (error) {
-      message.error("Error get top ip");
+      message.error("Get top 3 vulnabilities failed");
     }
   }
+  
   const fetchNumbOfRequests24 = async () => {
     try {
       const res = await statisticApi.getNumOfRequestsByServerName({
@@ -47,10 +49,9 @@ const UserMnDashboard:FC<Props> = ({agentData}) => {
     } catch (error) {
       message.error("Get number of requests within 24h failed")
     }
-  }
-  console.log(numOfRequests24);
-  
+  }  
   useEffect(() => {
+    fetchTop10Attacks();
     fetchNumbOfPrevent24();
     fetchNumbOfRequests24();
   }, [agentData])
@@ -60,7 +61,7 @@ const UserMnDashboard:FC<Props> = ({agentData}) => {
         <DashboardGeneralItem title="Number of detections" value={numOfPrevent24} icon={<Icons.bell />} />
         <DashboardGeneralItem title="Number of requests within 24h" value={numOfRequests24} icon={<Icons.bell />} />
         <DboardTopCardItem title="Top Ip prevented" value={['102.34.6.57', '12.54.67.77', '103.45.45.12']} icon={<Icons.camera />}/>
-        <DboardTopCardItem title="Top vulnerabilities" value={['XSS', 'SQL Injection', 'File Upload']} icon={<Icons.file />}/>
+        <DboardTopCardItem title="Top vulnerabilities" value={top10Attacks?.map((item: any) => item.message_msg)} icon={<Icons.file />}/>
       </Space>
       <DashboardChart />
       <Space direction="horizontal" className="dasboard-gn-wrapper" style={{marginTop: 10}}>

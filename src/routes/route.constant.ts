@@ -16,6 +16,6 @@ export const ADD_FILE_CONFIG = "/add-file-config";
 export const LOG = "/logs";
 export const KEYDETAIL = "/key/:id";
 export const CREATEVALUATION = "/create-valuation";
-export const DASHBOARD = '/dashboard';
+export const DASHBOARD = '/';
 export const USER_MANAGEMENT_DETAILS = "/user-management-details/:id";
 
