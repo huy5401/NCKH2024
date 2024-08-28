@@ -11,8 +11,9 @@
 }
 
 .layout-container{
-    height: 100vh;
+    min-height: 100vh;
     background: #1C2131;
+
     .content-wrapper{
         height: calc(100vh - 80px);
     }

@@ -1,8 +1,16 @@
 .sideBar-container {
     background: #FFFFFF;
     height: 100%;
+    position: fixed;
+    width: 240px;
     .ant-space{
         width: 100%;
+        .ant-space-item{
+            .sider-title-wrapper{
+                background-color: #1a6de3;
+                padding: 19px 10px;
+            }
+        }
     }
     .tittle-sider {
         margin-top: 20px;
@@ -19,35 +27,8 @@
         font-size: 20px;
         line-height: 24px;
         color: #FFFFFF;
+        text-align: center;
     }
-    // .menuTab {
-    //     padding-left: 24px;
-    //     .ant-menu{
-    //         background: #252C40;
-    //         border-inline-end: none;
-    //     }
-    //     .ant-menu-item{
-    //         width: 180px;
-    //         height: 48px;
-    //         background: #252C40;
-    //         border-radius: 8px;
-    //         .ant-menu-title-content{
-    //             font-family: 'Helvetica Neue';
-    //             font-style: normal;
-    //             font-weight: 400;
-    //             font-size: 16px;
-    //             line-height: 24px;
-    //             color: rgba(255, 255, 255, 0.4);
-    //         }
-    //     }
-    //     .ant-menu-item-selected{
-    //         background: rgba(67, 214, 133, 0.1);
-    //         .ant-menu-title-content{
-    //             color: #35DA7F;
-    //         }
-    //     }
-        
-    // }
 }
 .menuTab {
     .ant-menu{

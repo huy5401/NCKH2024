@@ -51,7 +51,10 @@ const items: MenuItem[] = [
 export const SideBar: React.FC = () => {
   return (
     <div className="sideBar-container">
-      <Space direction="vertical" size={20}>
+      <Space direction="vertical">
+        <div className="sider-title-wrapper">
+          <Typography className="slide-tittle">WAF Manager</Typography>
+        </div>
         <Row className="w-100 menuTab">
           <Menu
             defaultSelectedKeys={['1']}
