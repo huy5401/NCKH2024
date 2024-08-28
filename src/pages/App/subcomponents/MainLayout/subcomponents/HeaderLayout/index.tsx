@@ -134,10 +134,6 @@ const HeaderLayout = () => {
   return (
     <>
       <div className="header-container w-100 mobileHidden">
-        <Space direction="horizontal" style={{ width: "16%", justifyContent: "center", marginRight: "30px" }}>
-          {/* <Icon component={CameraSVG} className="slide-logo-icon" /> */}
-          <Typography className="slide-tittle">WAF Manager</Typography>
-        </Space>
         <Row className="w-100 h-100" justify={"space-between"} align={"middle"}>
           <Col span={7}>
           <Col>

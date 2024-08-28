@@ -26,11 +26,13 @@ const MainLayout = () => {
   return (
     <>
       <Layout className="layout-container">
-        <HeaderLayout />
+        <Sider width={240} className="mobileHidden sider-container">
+          <SideBar />
+        </Sider>
         <Layout className="layout-content">
-          <Sider width={240} className="mobileHidden sider-container">
-            <SideBar />
-          </Sider>
+          <div style={{position: "fixed", zIndex: 10000, width: "100%"}}>
+            <HeaderLayout />
+          </div>
           <Outlet />
         </Layout>
       </Layout>
