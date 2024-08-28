@@ -1,5 +1,5 @@
-import { Modal, Typography, message } from 'antd'
-import React, { FC, useEffect, useState } from 'react'
+import { message } from 'antd'
+import React, { useEffect, useState } from 'react'
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css'
@@ -9,8 +9,8 @@ import { LogsApi } from '../../../apis/log';
 
 type AttackerMap = {
     ip?: string,
-    latitude?: string,
-    longitude?: string,
+    latitude?: number,
+    longitude?: number,
     city?: string | null,
     country?: string
 }
