@@ -106,6 +106,14 @@ function DashboardChart() {
                 min: 0,
             },
         },
+        onClick: (event: any, elements: any) => {
+            if (elements.length > 0) {
+                const { datasetIndex, index } = elements[0];
+                const data = dataLineChart.datasets[datasetIndex].data[index];
+                const label = dataLineChart.labels[index];
+                console.log(`Clicked point data: ${data}, Label: ${label}`);
+            }
+        },
     }
 
     // top rule

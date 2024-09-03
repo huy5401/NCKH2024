@@ -18,10 +18,11 @@ import AddIPModal from "../AddIPModal";
 type Props = {
   filters: FilterAgentType;
   setFilters: (filters: FilterAgentType) => void;
+  mutate: () => void;
 };
 
 
-const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters }) => {
+const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters, mutate }) => {
   const [filterData, setFilterData] = useState<FilterAgentType>({});
   const [isOpenAddIPModal, setIsOpenAddIPModal] = useState<boolean>(false);
   const openEditModalHandler = () => {
@@ -61,7 +62,7 @@ const ListBlockIPFilter: React.FC<Props> = ({ filters, setFilters }) => {
         type="primary"
         onClick={openEditModalHandler}
       />
-      <AddIPModal isOpenModal={isOpenAddIPModal} closeModal={closeAddIPModalHandler}/>
+      <AddIPModal isOpenModal={isOpenAddIPModal} closeModal={closeAddIPModalHandler} mutate={mutate}/>
     </Space>
   );
 };

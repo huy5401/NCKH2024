@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import ListFileConfigTable from "./ListFileConfigTable";
 import RuleManagementFilter from "./RuleManagementFilter";
 
 const RuleCustomManagement = () => {
-  const [filter, setFilter]= useState<any>({})    
+  const [filter, setFilter]= useState<any>({});
   return (
     <div>
       <div style={{marginBottom: "12px"}}>
