@@ -3,16 +3,27 @@ import "./style.scss";
 import { Form, Input, Modal, Typography, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import ButtonCustom from "../../../components/ButtonCustom";
+import { RuleApi } from "../../../apis/rule";
 
 type Props = {
     isOpenModal: boolean;
     closeModal: () => void;
+    mutate: () => void;
 }
 
-const AddIPModal: FC<Props> = ({ isOpenModal, closeModal }) => {
+const AddIPModal: FC<Props> = ({ isOpenModal, closeModal, mutate }) => {
     const [form] = useForm();
     const onFinish = async (value:any) => {
-        console.log(value);
+        try {
+            const res = await RuleApi.addIPToBlacklist(value);
+            if(res.status === 200){
+                mutate();
+                message.success("Added ip to blacklist successfully");
+                closeModal();
+            }else message.error("Added ip to blacklist failed");
+        } catch (error) {
+            message.error("Added ip to blacklist failed");
+        }
     }
     return (
         <Modal
@@ -27,7 +38,7 @@ const AddIPModal: FC<Props> = ({ isOpenModal, closeModal }) => {
             <Form layout="vertical" onFinish={onFinish} form={form}>
                 <Form.Item
                     label="IP Block"
-                    name={"IP"}
+                    name={"ip_address"}
                     rules={[{ required: true }]}
                 >
                     <Input placeholder="192.168.131.1" />

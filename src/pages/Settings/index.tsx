@@ -96,7 +96,7 @@ const Settings = () => {
   const handleChangeModelCNN = (e: any) => {
     Modal.confirm({
       title: 'Confirm',
-      content: e ? 'You definitely want to enable CNN model?' :  'You definitely want to disable CNN model?',
+      content: e ? 'You definitely want to enable CNN model?' : 'You definitely want to disable CNN model?',
       onOk: async () => {
         try {
           const res = await ConfigApi.updateModelCNN({ mode: e ? "On" : "Off" });
@@ -163,7 +163,7 @@ const Settings = () => {
     }
   })
   return (
-    <div className='customers-wrapper'>
+    <div className='container-wrapper'>
       <Space style={{ display: "flex", alignItems: "center", marginBottom: '20px' }}>
         <ButtonCustom
           label="UPDATE CRS"
@@ -294,20 +294,22 @@ const Settings = () => {
         </Space>
       </Space>
       {/* <TextArea rows={10} value={fetchValue} onKeyUp={handlePressKey} /> */}
-      <ul>
-        <li>A: Audit log header (required)</li>
-        <li>B: Request headers</li>
-        <li>C: Request body (e.g., POST parameters)</li>
-        <li>D: Reserved for future use</li>
-        <li>E: Reserved for future use</li>
-        <li>F: Final boundary, signifies the end of the entry (required)</li>
-        <li>G: Reserved for future use</li>
-        <li>H: Reserved for future use</li>
-        <li>I: Intermediate response headers (these are headers in 4xx-5xx responses by ModSecurity itself, not the application)</li>
-        <li>J: Reserved for future use</li>
-        <li>K: Reserved for future use</li>
-        <li>Z: Final boundary, signifies the end of the entry (required)</li>
-      </ul>
+      <div style={{paddingLeft: "15px"}}>
+        <ul>
+          <li>A: Audit log header (required)</li>
+          <li>B: Request headers</li>
+          <li>C: Request body (e.g., POST parameters)</li>
+          <li>D: Reserved for future use</li>
+          <li>E: Reserved for future use</li>
+          <li>F: Final boundary, signifies the end of the entry (required)</li>
+          <li>G: Reserved for future use</li>
+          <li>H: Reserved for future use</li>
+          <li>I: Intermediate response headers (these are headers in 4xx-5xx responses by ModSecurity itself, not the application)</li>
+          <li>J: Reserved for future use</li>
+          <li>K: Reserved for future use</li>
+          <li>Z: Final boundary, signifies the end of the entry (required)</li>
+        </ul>
+      </div>
     </div>
   )
 }

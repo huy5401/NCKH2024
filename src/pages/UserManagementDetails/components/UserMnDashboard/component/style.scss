@@ -4,7 +4,7 @@
     justify-content: space-between;
     .ant-space-item{
         background-color: white;
-        width: 49%;
+        width: 49.5%;
         height: 100%;
         border-radius: 8px;
         .chart-item{
@@ -22,8 +22,11 @@
             }
         }
         .chart-item > .chart-content{
-            height: 82% !important;
+            height: 85% !important;
             margin: 0 auto;
+        }
+        .chart-line-content{
+            width: 100% !important;
         }
     }
 }

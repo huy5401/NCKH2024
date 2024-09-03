@@ -17,6 +17,7 @@ const Rules: FC<Props> = ({ agentData }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [dataRule, setDataRule] = useState("");
   const [dataRuleChange, setDataRuleChange] = useState("");
+  // hàm khi shift + / thì command
   const handleCommandKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === '/' && e.ctrlKey) {
       e.preventDefault();
@@ -63,7 +64,6 @@ const Rules: FC<Props> = ({ agentData }) => {
     fetchDataRule();
   }, [])
   const handleChangeRule = (e: any) => {
-    console.log(e.target.value);
     setDataRuleChange(e.target.value);
   }
   const handleUpdate = async () => {

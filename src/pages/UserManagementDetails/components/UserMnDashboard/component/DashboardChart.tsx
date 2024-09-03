@@ -57,7 +57,14 @@ function UserMnDashboardChart() {
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderWidth: 1,
                 pointBorderColor: 'red',
-                fill: true,
+            },
+            {
+                label: 'Total requests',
+                data: dataRawLineChart.map((item: any) => item.total_requests),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 1,
+                pointBorderColor: 'green',
             }
         ]
     }
@@ -87,7 +94,7 @@ function UserMnDashboardChart() {
             </div>
             <div className='chart-item'>
                 <Typography className='chart-title'>Number of prevented within 24h</Typography>
-                <Line data={dataLineChart} options={optionsLine} className='chart-content' />
+                <Line data={dataLineChart} options={optionsLine} className='chart-content chart-line-content' />
             </div>
         </Space>
     );

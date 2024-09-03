@@ -25,6 +25,7 @@ type Props = {
 }
 
 const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) => {
+    const [isLoading, setIsLoading] = useState(false);
     const form = useFormik({
         initialValues: {
             id: agent.id,
@@ -40,6 +41,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
         } as AgentType,
         onSubmit: async (data: AgentType) => {
             try {
+                setIsLoading(true);
                 const dataUpdate = {
                     id: data.id,
                     ProxyPreserveHost: data.ProxyPreserveHost,
@@ -60,6 +62,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
             } catch (error) {
                 message.error("Update fail")
             }
+            setIsLoading(false);
         }
     })
     useEffect(() => {
@@ -208,6 +211,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                         type="primary"
                         htmlType="submit"
                         onClick={form.submitForm}
+                        loading={isLoading}
                     />
                 </div>
             </Form>

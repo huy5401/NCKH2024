@@ -20,9 +20,10 @@ type dataAddRaw = {
 
 const AddAgent = () => {
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const [form] = useForm();
     useEffect(() => {
-        let breadCrumb = [ 
+        let breadCrumb = [
             {
                 label: "Website management",
                 path: USER_MANAGEMENT
@@ -103,6 +104,7 @@ const AddAgent = () => {
             Protocol: value.Protocol
         }
         try {
+            setIsLoading(true);
             const res = await agentApi.add(dataAddAgent);
             if (res.status === 200) {
                 message.success(res.data.message);
@@ -112,10 +114,11 @@ const AddAgent = () => {
         } catch (error) {
             message.error("Add website fail")
         }
+        setIsLoading(false);
     }
     return (
         <div className="container-wrapper">
-            <Typography className="addAgent-title" style={{marginBottom: '10px', fontSize: '1.5rem'}}>Add Website</Typography>
+            <Typography className="addAgent-title" style={{ marginBottom: '10px', fontSize: '1.5rem' }}>Add Website</Typography>
             <Form layout="vertical" onFinish={addAgentHandler} form={form}>
                 <Steps
                     direction="vertical"
@@ -141,7 +144,7 @@ const AddAgent = () => {
                         bgColor="#2862AF"
                         type="primary"
                         htmlType="submit"
-                        onClick={() => { }}
+                        loading={isLoading}
                     />
                 </Space>
             </Form>

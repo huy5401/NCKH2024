@@ -1,5 +1,5 @@
 import { Card, Select, Tooltip, message } from "antd";
-import { FC, useState } from "react";
+import { FC, forwardRef, useImperativeHandle, useState } from "react";
 import { ColumnsType } from "antd/es/table";
 import "./style.scss";
 import ListButtonActionUpdate from "../../../components/ListButtonActionUpdate";
@@ -18,14 +18,16 @@ type Props = {
   filter: FilterAgentType;
   setFilter: (filter: FilterAgentType) => void;
 };
-const ListBlockIPTable: FC<Props> = ({ filter }) => {
+const ListBlockIPTable = forwardRef(({ filter }: Props, ref) => {
   const [params, setParams] = useState<CommonGetAllParams>({
     number: 10,
     page: 1,
   });
 
   const { data, isLoading, error, mutate } = useGetBlackList(params);
-
+  useImperativeHandle(ref, () => {
+    mutate();
+  })
   const removeFromBlackListHandler = async (ipAddr?: string) => {
     try {
       const res = await RuleApi.deleteIPFromBlacklist({ip_address:ipAddr});
@@ -97,6 +99,6 @@ const ListBlockIPTable: FC<Props> = ({ filter }) => {
       </Card>
     </div>
   );
-};
+});
 
 export default ListBlockIPTable;
