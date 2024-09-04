@@ -51,12 +51,13 @@ const Settings = () => {
   const fecthModeSVM = async () => {
     try {
       const resModelSVM = await ConfigApi.getModeSVm();
-      if (resModelSVM.status === 200) setModeSVM(resModelSVM.data)
+      if (resModelSVM.status === 200) setModeSVM(resModelSVM.data);
       else message.error("Get model SVM error")
     } catch (error) {
       message.error("Get model SVM error")
     }
   }
+  
   useEffect(() => {
     let breadCrumb = [
       {
@@ -69,7 +70,10 @@ const Settings = () => {
   useEffect(() => {
     fecthConfig();
     fecthModeCNN();
+    fecthModeSVM();
   }, [])
+  console.log(modeSVM);
+  
   useEffect(() => {
     if (dataConfig) {
       form.setValues(dataConfig);
@@ -85,11 +89,11 @@ const Settings = () => {
     try {
       const res = await RuleApi.updateCRS();
       if (res.status === 200) {
-        message.success("Update crs successfully");
+        message.success("Updated CRS successfully");
         setIsUpdateCRS(false);
       }
     } catch (error) {
-      message.error("Update crs fail");
+      message.error("Updated CRS failed");
       setIsUpdateCRS(false);
     }
   }
@@ -102,10 +106,10 @@ const Settings = () => {
           const res = await ConfigApi.updateModelCNN({ mode: e ? "On" : "Off" });
           if (res.status === 200) message.success(e ? "Enable model CNN successfully" : "Disable model CNN successfully")
           else {
-            message.error(e ? "Enable model CNN error" : "Disable model CNN error");
+            message.error(e ? "Enabled model CNN failed" : "Disabled model CNN failed");
           }
         } catch (error) {
-          message.error(e ? "Enable model CNN error" : "Disable model CNN error");
+          message.error(e ? "Enabled model CNN failed" : "Disabled model CNN failed");
         }
         fecthModeCNN();
       },
@@ -123,10 +127,10 @@ const Settings = () => {
           const res = await ConfigApi.updateModelSVM({ mode: e ? "On" : "Off" });
           if (res.status === 200) message.success(e ? "Enable model SVM successfully" : "Disable model SVM successfully")
           else {
-            message.error(e ? "Enable model SVM error" : "Disable model SVM error");
+            message.error(e ? "Enable model SVM failed" : "Disable model SVM failed");
           }
         } catch (error) {
-          message.error(e ? "Enable model SVM error" : "Disable model SVM error");
+          message.error(e ? "Enable model SVM failed" : "Disable model SVM failed");
         }
         fecthModeSVM();
       },
@@ -155,9 +159,9 @@ const Settings = () => {
           fecthConfig();
           setIsLoading(false);
         }
-        else message.error("Update fail");
+        else message.error("Update failed");
       } catch (error) {
-        message.error("Update fail")
+        message.error("Update failed")
         setIsLoading(false);
       }
     }

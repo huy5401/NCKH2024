@@ -39,13 +39,13 @@ export const RuleApi = {
         })
     },
     restoreRuleEachAgent: (params: { id_rule: string, ServerName: string, Port: string }) => {
-        return WAFAxiosClient('/rule/add_rule_CRS', {
+        return WAFAxiosClient('/rule/add_rule_CRS_each_agent', {
             method: 'POST',
             params
         })
     },
     deleteRuleCRS: (params: { rule_file?: string, id_rule?: string }) => {
-        return WAFAxiosClient('/ruleremote_rule_CRS', {
+        return WAFAxiosClient('/rule/remote_rule_CRS', {
             method: 'DELETE',
             params
         })

@@ -11,7 +11,6 @@ import { AgentType, FilterAgentType } from "../../../constants/types/agent.type"
 import { useAgent } from "../../../utils/request";
 import EditAgentModal from "../UsermgnEditModal";
 import { agentApi } from "../../../apis/agent";
-import { RuleApi } from "../../../apis/rule";
 import { ConfigApi } from "../../../apis/config";
 
 
@@ -43,11 +42,11 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
     try {
         const res = await ConfigApi.updateModeAgent({ServerName: ServerName, Port:Port, mode: e});
         if(res.status === 200){
-            message.success(res.data.message);
+            message.success("Updated mode website successfully");
             mutate();
-        }else message.error("Update mode website fail");
+        }else message.error("Updated mode website failed");
     } catch (error) {
-      message.error("Update mode website fail");
+      message.error("Updated mode website failed");
     }
   }
   const removeAgentHandler = async (idAgent?: number) => {
@@ -57,9 +56,9 @@ const UserManagementTable: FC<Props> = ({ filter }) => {
         message.success(res.data.message);
         mutate();
       }
-      else message.error("Delete website fail");
+      else message.error("Deleted website failed");
     } catch (error) {
-      message.error("Delete website fail");
+      message.error("Deleted website failed");
     }
   }
 
