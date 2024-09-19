@@ -38,6 +38,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
             ErrorDocument: agent.ErrorDocument,
             Protocol: agent.Protocol,
             SecRuleEngine: agent.SecRuleEngine,
+            SSLEngine: agent.SSLEngine
         } as AgentType,
         onSubmit: async (data: AgentType) => {
             try {
@@ -50,6 +51,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                     ErrorLog: data.ErrorLog,
                     ErrorDocument: data.ErrorDocument,
                     Protocol: data.Protocol,
+                    SSLEngine : data.SSLEngine
                     // SecRuleEngine: data.SecRuleEngine
                 }
                 const res = await agentApi.update(dataUpdate);
@@ -58,9 +60,9 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                     mutate();
                     closeModal();
                 }
-                else message.error("Update fail");
+                else message.error("Updated failed");
             } catch (error) {
-                message.error("Update fail")
+                message.error("Updated failed")
             }
             setIsLoading(false);
         }
@@ -114,23 +116,31 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                 />
             </Form.Item>
         </Space>
-        <Form.Item label="Protocol"
-            rules={[{ required: true }]}
-        >
-            <Select placeholder="http/https" style={{ width: '100%' }}
-                value={form.values.Protocol}
-                onChange={(e) => {
-                    form.setValues({
-                        ...form.values, Protocol: e,
-                        ProxyPass: `${e}://${form.values.ProxyPass?.split('//')[1].split(':')[0]}:${form.values.ProxyPass?.split('//')[1].split(':')[1]}`,
-                        ProxyPassReverse: `${e}://${form.values.ProxyPass?.split('//')[1].split(':')[0]}:${form.values.ProxyPass?.split('//')[1].split(':')[1]}`
-                    });
-                }}
+        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
+            <Form.Item label="Protocol"
+                rules={[{ required: true }]}
             >
-                <Select.Option value="http">http</Select.Option>
-                <Select.Option value="https">https</Select.Option>
-            </Select>
-        </Form.Item>
+                <Select placeholder="http/https" style={{ width: '100%' }}
+                    value={form.values.Protocol}
+                    onChange={(e) => {
+                        form.setValues({
+                            ...form.values, Protocol: e,
+                            ProxyPass: `${e}://${form.values.ProxyPass?.split('//')[1].split(':')[0]}:${form.values.ProxyPass?.split('//')[1].split(':')[1]}`,
+                            ProxyPassReverse: `${e}://${form.values.ProxyPass?.split('//')[1].split(':')[0]}:${form.values.ProxyPass?.split('//')[1].split(':')[1]}`
+                        });
+                    }}
+                >
+                    <Select.Option value="http">http</Select.Option>
+                    <Select.Option value="https">https</Select.Option>
+                </Select>
+            </Form.Item>
+            <Form.Item label="SSL Engine"
+            >
+                <Switch value={form.values.SSLEngine === "On" ? true : false}
+                    onChange={(e) => { form.setValues({ ...form.values, SSLEngine: e ? "On" : "Off" }); }}
+                />
+            </Form.Item>
+        </Space>
     </>
     const configHostItem = <>
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
@@ -198,7 +208,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
 
                     ]}
                 />
-                
+
                 <div style={{ display: "flex", padding: "0 15px 15px 15px", justifyContent: "end" }}>
                     <ButtonCustom
                         label="Cancel"

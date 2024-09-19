@@ -15,7 +15,8 @@ type dataAddRaw = {
     AgentPort: number,
     ServerPort: string,
     ProxyPreserveHost: boolean,
-    ErrorDocument: string
+    ErrorDocument: string,
+    SSLEngine: boolean
 }
 
 const AddAgent = () => {
@@ -36,13 +37,25 @@ const AddAgent = () => {
         dispatch(setSelectedBreadCrumb(breadCrumb))
     }, [USER_MANAGEMENT])
     const configAgentItem = <>
-        <Form.Item
-            label="Website server name"
-            name="ServerName"
-            rules={[{ required: true }]}
-        >
-            <Input placeholder="www.dvwa.com" />
-        </Form.Item>
+        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
+            <Form.Item
+                label="Website name"
+                name="ServerName"
+                rules={[{ required: true }]}
+            >
+                <Input placeholder="www.dvwa.com" />
+            </Form.Item>
+            <Form.Item label="Protocol"
+                rules={[{ required: true }]}
+                name="Protocol"
+            >
+                <Select placeholder="http/https" style={{ width: '100%' }} >
+                    <Select.Option value="http">http</Select.Option>
+                    <Select.Option value="https">https</Select.Option>
+                </Select>
+            </Form.Item>
+        </Space>
+
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
             <Form.Item
                 label="IP Website"
@@ -59,24 +72,10 @@ const AddAgent = () => {
                 <Input placeholder="6565" />
             </Form.Item>
         </Space>
-        <Form.Item label="Protocol"
-            rules={[{ required: true }]}
-            name="Protocol"
-        >
-            <Select placeholder="http/https" style={{ width: '49.5%' }}>
-                <Select.Option value="http">http</Select.Option>
-                <Select.Option value="https">https</Select.Option>
-            </Select>
-        </Form.Item>
+
     </>
     const configHostItem = <>
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
-
-            <Form.Item label="Proxy preserve host"
-                name="ProxyPreserveHost"
-            >
-                <Switch />
-            </Form.Item>
             <Form.Item
                 label="Server Port"
                 name="ServerPort"
@@ -84,14 +83,27 @@ const AddAgent = () => {
             >
                 <Input placeholder="80" />
             </Form.Item>
+            <Form.Item
+                label="Error document"
+                name="ErrorDocument"
+                rules={[{ required: true }]}
+            >
+                <Input placeholder="/403.html" />
+            </Form.Item>
         </Space>
-        <Form.Item
-            label="Error document"
-            name="ErrorDocument"
-            rules={[{ required: true }]}
-        >
-            <Input placeholder="/403.html" />
-        </Form.Item>
+
+        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
+            <Form.Item label="Proxy preserve host"
+                name="ProxyPreserveHost"
+            >
+                <Switch />
+            </Form.Item>
+            <Form.Item label="SSL Engine"
+                name="SSLEngine"
+            >
+                <Switch />
+            </Form.Item>
+        </Space>
     </>
     const addAgentHandler = async (value: dataAddRaw) => {
         const dataAddAgent: AgentType = {
@@ -101,7 +113,8 @@ const AddAgent = () => {
             ProxyPass: `${value.Protocol}://${value.IPAgent}:${value.AgentPort}/`,
             ProxyPassReverse: `${value.Protocol}://${value.IPAgent}:${value.AgentPort}/`,
             ErrorDocument: value.ErrorDocument,
-            Protocol: value.Protocol
+            Protocol: value.Protocol,
+            SSLEngine: value.SSLEngine ? "On" : "Off"
         }
         try {
             setIsLoading(true);
@@ -110,9 +123,11 @@ const AddAgent = () => {
                 message.success(res.data.message);
                 form.resetFields();
             }
-            else message.error("Add website fail")
+            else message.error("Added website failed")
+            console.log(dataAddAgent);
+
         } catch (error) {
-            message.error("Add website fail")
+            message.error("Added website failed")
         }
         setIsLoading(false);
     }
