@@ -10,7 +10,7 @@ import { useFormik } from "formik";
 type dataAddRaw = {
     ServerName: string,
     IPAgent: string,
-    Protocol: string,
+    // Protocol: string,
     AgentPort: string,
     ServerPort: number,
     ProxyPreserveHost: boolean,
@@ -36,7 +36,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
             ProxyPassReverse: agent.ProxyPassReverse,
             ErrorLog: agent.ErrorLog,
             ErrorDocument: agent.ErrorDocument,
-            Protocol: agent.Protocol,
+            // Protocol: agent.Protocol,
             SecRuleEngine: agent.SecRuleEngine,
             SSLEngine: agent.SSLEngine
         } as AgentType,
@@ -116,8 +116,7 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                 />
             </Form.Item>
         </Space>
-        <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
-            <Form.Item label="Protocol"
+            {/* <Form.Item label="Protocol"
                 rules={[{ required: true }]}
             >
                 <Select placeholder="http/https" style={{ width: '100%' }}
@@ -133,14 +132,13 @@ const EditAgentModal: FC<Props> = ({ isOpenModal, closeModal, agent, mutate }) =
                     <Select.Option value="http">http</Select.Option>
                     <Select.Option value="https">https</Select.Option>
                 </Select>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item label="SSL Engine"
             >
                 <Switch value={form.values.SSLEngine === "On" ? true : false}
                     onChange={(e) => { form.setValues({ ...form.values, SSLEngine: e ? "On" : "Off" }); }}
                 />
             </Form.Item>
-        </Space>
     </>
     const configHostItem = <>
         <Space style={{ width: '100%' }} className="addAgentConfig-server-wrapper">
