@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.scss";
 import RemovedRuleTable from "./RemovedRuleTable";
 import RemovedRuleFilter from "./RemovedRuleFilter";
 
 const CRSManagement = () => {
-  const [filter, setFilter]= useState<any>({})    
+  const [filter, setFilter] = useState<any>({})
   return (
     <div>
-      <div style={{marginBottom: "12px"}}>
-        <RemovedRuleFilter filters={filter} setFilters={setFilter}/>
+      <div style={{ marginBottom: "12px" }}>
+        <RemovedRuleFilter filters={filter} setFilters={setFilter} />
       </div>
-       <RemovedRuleTable/>
+      
+      <RemovedRuleTable />
     </div>
   );
 };

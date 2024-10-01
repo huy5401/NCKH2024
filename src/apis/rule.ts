@@ -103,5 +103,15 @@ export const RuleApi = {
             method: 'DELETE',
             data
         })
+    },
+    updateInboundAnomalyScoreThreshold: (inbound_anomaly_score_threshold: number) => {
+        return WAFAxiosClient(`/rule/update_inbound_anomaly_score_threshold?inbound_anomaly_score_threshold=${inbound_anomaly_score_threshold}`, {
+            method: 'POST',
+        })
+    },
+    getInboundAnomalyScoreThreshold: () => {
+        return WAFAxiosClient(`/rule/get_inbound_anomaly_score_threshold`, {
+            method: 'GET',
+        })
     }
 }
